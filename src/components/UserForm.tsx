@@ -14,8 +14,9 @@ import { FormEvent, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
+import { ICompany } from '@interfaces/company'
 import { IEmployee } from '@interfaces/employee'
-import { ICompany, IUser, UserCreateUpdateDTO, UserRole } from '@interfaces/user'
+import { IUser, UserCreateUpdateDTO, UserRole } from '@interfaces/user'
 
 import { api } from '@services/api'
 
@@ -62,7 +63,8 @@ export function UserForm({
   const formRole: string = watch('role')
   const formCompanyCnpj: string = watch('companyCnpj')
   const isCompanySelectShow = !formRole || formRole === UserRole.Client
-  const isEmployeeSelectShow = formCompanyCnpj && formRole === UserRole.Client && create
+  const isEmployeeSelectShow =
+    formCompanyCnpj && formRole === UserRole.Client && employees.length > 0 && create
 
   useEffect(() => {
     async function loadInputCompanies() {
@@ -109,12 +111,12 @@ export function UserForm({
   }
 
   if (!read && !create && !update) {
-    router.push('/employee')
+    router.push('/user')
     return null
   }
 
   if ((read || update) && !values) {
-    router.push('/employee')
+    router.push('/user')
     return null
   }
 

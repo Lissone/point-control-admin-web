@@ -31,16 +31,16 @@ import { Pagination } from '@components/Pagination'
 
 import { withSSRAuth } from '@utils/withSSRAuth'
 
-interface UserListState {
+interface UsersListState {
   isLoading: boolean
   error?: boolean
   users?: IUser[]
 }
 
-export default function UserList() {
+export default function UsersList() {
   const { user } = useAuth()
   const toast = useToast()
-  const [state, setState] = useState<UserListState>({ isLoading: false })
+  const [state, setState] = useState<UsersListState>({ isLoading: false })
 
   useEffect(() => {
     async function getUsers() {
@@ -90,18 +90,18 @@ export default function UserList() {
             </NextLink>
           </Flex>
 
-          <UserListContent state={state} />
+          <UsersListContent state={state} />
         </Box>
       </Layout>
     </>
   )
 }
 
-interface UserListContentProps {
-  state: UserListState
+interface UsersListContentProps {
+  state: UsersListState
 }
 
-function UserListContent({ state }: UserListContentProps) {
+function UsersListContent({ state }: UsersListContentProps) {
   const [page, setPage] = useState(1)
   const { isLoading, error, users } = state
 

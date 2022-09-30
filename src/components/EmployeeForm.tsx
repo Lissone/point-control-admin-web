@@ -15,8 +15,8 @@ import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
+import { ICompany } from '@interfaces/company'
 import { EmployeeCreateUpdateDTO, IEmployee } from '@interfaces/employee'
-import { ICompany } from '@interfaces/user'
 
 import { api } from '@services/api'
 

@@ -1,5 +1,6 @@
 /* eslint-disable import/no-cycle */
-import { IAddress, ICompany } from './user'
+import { ICompany } from './company'
+import { IAddress } from './user'
 
 export interface IEmployee {
   cpf: string

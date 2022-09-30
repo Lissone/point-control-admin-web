@@ -1,7 +1,18 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
 /* eslint-disable import/no-cycle */
-import { IEmployee } from '@interfaces/employee'
+import { ICompany } from './company'
+import { IEmployee } from './employee'
+
+export enum UserRole {
+  GlobalAdmin = 'global.admin',
+  Client = 'client'
+}
+
+export const UserRoleLabel = {
+  [UserRole.GlobalAdmin]: 'Admin Global',
+  [UserRole.Client]: 'Cliente'
+}
 
 export interface IAddress {
   id: number
@@ -13,24 +24,6 @@ export interface IAddress {
   createdAt: Date
   updatedAt: Date
   employee: IEmployee
-}
-
-export interface ICompany {
-  cnpj: string
-  name: string
-  createdAt: Date
-  updatedAt: Date
-  employees?: IEmployee[]
-}
-
-export enum UserRole {
-  GlobalAdmin = 'global.admin',
-  Client = 'client'
-}
-
-export const UserRoleLabel = {
-  [UserRole.GlobalAdmin]: 'Admin Global',
-  [UserRole.Client]: 'Cliente'
 }
 
 export interface IUser {
