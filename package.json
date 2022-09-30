@@ -1,0 +1,68 @@
+{
+  "name": "point-control-admin-web",
+  "version": "1.0.0",
+  "description": "Aplicação de controle de pontos de empresas, versão admin.",
+  "repository": "https://github.com/Lissone/point-control-admin-web.git",
+  "author": "Leonardo Dias Lissone Santomero",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@chakra-ui/core": "^0.8.0",
+    "@chakra-ui/react": "^1.6.6",
+    "@emotion/react": "^11.4.1",
+    "@emotion/styled": "^11.3.0",
+    "@hookform/resolvers": "^2.8.0",
+    "apexcharts": "^3.27.3",
+    "axios": "^0.24.0",
+    "date-fns": "^2.29.3",
+    "framer-motion": "^4.1.17",
+    "jwt-decode": "^3.1.2",
+    "next": "11.1.0",
+    "nookies": "^2.5.2",
+    "react": "17.0.2",
+    "react-apexcharts": "^1.3.9",
+    "react-dom": "17.0.2",
+    "react-hook-form": "^7.13.0",
+    "react-icons": "^4.2.0",
+    "yup": "^0.32.9"
+  },
+  "devDependencies": {
+    "@types/node": "^16.6.2",
+    "@types/react": "^17.0.19",
+    "@typescript-eslint/eslint-plugin": "^5.38.0",
+    "@typescript-eslint/parser": "^5.38.0",
+    "eslint": "^8.24.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-next": "^12.3.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-import-helpers": "^1.2.1",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.31.8",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
+    "pretty-quick": "^3.1.3",
+    "tsconfig-paths": "^4.1.0",
+    "typescript": "^4.3.5"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "yarn commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "yarn lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.ts?(x)": [
+      "yarn pretty-quick --staged",
+      "yarn eslint --fix --ext"
+    ]
+  }
+}
