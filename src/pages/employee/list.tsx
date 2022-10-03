@@ -21,6 +21,7 @@ import { useEffect, useState } from 'react'
 import { RiAddLine, RiSearchLine, RiPencilLine } from 'react-icons/ri'
 
 import { IEmployee } from '@interfaces/employee'
+import { IUser } from '@interfaces/user'
 
 import { api } from '@services/api'
 
@@ -46,12 +47,7 @@ export default function EmployeesList() {
     async function getEmployees() {
       try {
         setState({ isLoading: true })
-
-        const companyCnpj = user?.company?.cnpj
-        const { data: employees } = await (companyCnpj
-          ? api.get(`/employee/company/${companyCnpj}`)
-          : api.get('/employee'))
-
+        const { data: employees } = await api.get('/employee')
         setState({ isLoading: false, employees })
       } catch {
         setState({ isLoading: false, error: true })
@@ -66,7 +62,7 @@ export default function EmployeesList() {
         isClosable: true
       })
     })
-  }, [toast, user])
+  }, [toast])
 
   return (
     <>
@@ -95,7 +91,7 @@ export default function EmployeesList() {
             </NextLink>
           </Flex>
 
-          <EmployeesListContent state={state} />
+          <EmployeesListContent state={state} user={user} />
         </Box>
       </Layout>
     </>
@@ -104,9 +100,10 @@ export default function EmployeesList() {
 
 interface EmployeesListContentProps {
   state: EmployeesListState
+  user?: IUser
 }
 
-function EmployeesListContent({ state }: EmployeesListContentProps) {
+function EmployeesListContent({ state, user }: EmployeesListContentProps) {
   const [page, setPage] = useState(1)
   const { isLoading, error, employees } = state
 
@@ -126,10 +123,20 @@ function EmployeesListContent({ state }: EmployeesListContentProps) {
   if (error || !employees) {
     return (
       <Flex justify="center">
-        <Text>Falha ao obter dados dos usuários</Text>
+        <Text>Falha ao obter dados</Text>
       </Flex>
     )
   }
+
+  if (employees.length === 0) {
+    return (
+      <Flex justify="center">
+        <Text color="red.500">Nenhum funcionário cadastrado</Text>
+      </Flex>
+    )
+  }
+
+  const userHasCompany = !!user?.companyCnpj
 
   return (
     <>
@@ -139,9 +146,10 @@ function EmployeesListContent({ state }: EmployeesListContentProps) {
             <Th w="4" />
             {isWideVersion && <Th>CPF</Th>}
             <Th>Usuário</Th>
+            {isWideVersion && !userHasCompany && <Th>Empresa</Th>}
             {isWideVersion && <Th>Cargo</Th>}
-            {isWideVersion && <Th>Entrada</Th>}
-            {isWideVersion && <Th>Saída</Th>}
+            {isWideVersion && userHasCompany && <Th>Entrada</Th>}
+            {isWideVersion && userHasCompany && <Th>Saída</Th>}
             <Th w="8" />
           </Tr>
         </Thead>
@@ -172,9 +180,10 @@ function EmployeesListContent({ state }: EmployeesListContentProps) {
                   </Text>
                 </Box>
               </Td>
+              {isWideVersion && !userHasCompany && <Td>{employee.company.name}</Td>}
               {isWideVersion && <Td>{employee.role}</Td>}
-              {isWideVersion && <Td>{employee.entry}</Td>}
-              {isWideVersion && <Td>{employee.exit}</Td>}
+              {isWideVersion && userHasCompany && <Td>{employee.entry}</Td>}
+              {isWideVersion && userHasCompany && <Td>{employee.exit}</Td>}
               <Td>
                 <NextLink href={`/employee/edit/${employee.cpf}`} passHref>
                   <Button

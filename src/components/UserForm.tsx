@@ -22,8 +22,7 @@ import { api } from '@services/api'
 
 import { useAuth } from '@contexts/AuthContext'
 
-import { Input } from './Form/Input'
-import { Select } from './Form/Select'
+import { Input, Select } from '@components/shared/Form'
 
 type FormValuesType = Partial<UserCreateUpdateDTO> & Partial<IUser>
 

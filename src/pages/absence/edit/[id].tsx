@@ -2,37 +2,37 @@ import { useToast } from '@chakra-ui/react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 
-import { EmployeeCreateUpdateDTO, IEmployee } from '@interfaces/employee'
+import { AbsenceCreateUpdateDTO, IAbsence } from '@interfaces/absence'
 
 import { api, setupAPIClient } from '@services/api'
 
-import { EmployeeForm } from '@components/EmployeeForm'
+import { AbsenceForm } from '@components/AbsenceForm'
 import { Layout } from '@components/Layout'
 import { RecordNotFound } from '@components/shared/RecordNotFound'
 
 import { withSSRAuth } from '@utils/withSSRAuth'
 
-interface EditEmployeeProps {
-  employee: IEmployee | null
+interface EditAbsenceProps {
+  absence: IAbsence | null
 }
 
-export default function EditEmployee({ employee }: EditEmployeeProps) {
+export default function EditAbsence({ absence }: EditAbsenceProps) {
   const router = useRouter()
   const toast = useToast()
 
-  const handleUpdateEmployee = async (values: EmployeeCreateUpdateDTO) => {
+  const handleUpdateAbsence = async (values: AbsenceCreateUpdateDTO) => {
     api
-      .put(`/employee/${employee.cpf}`, values)
+      .put(`/absence/${absence.id}`, values)
       .then(() => {
         toast({
-          title: 'Funcionário atualizado!',
-          description: values.name,
+          title: 'Ausência atualizada!',
+          description: absence.employee.name,
           status: 'success',
           duration: 3000,
           isClosable: true
         })
 
-        router.push('/employee')
+        router.push('/absence')
       })
       .catch((err) => {
         toast({
@@ -47,22 +47,22 @@ export default function EditEmployee({ employee }: EditEmployeeProps) {
   return (
     <>
       <Head>
-        <title>PointControl | Edição de Funcionário</title>
+        <title>PointControl | Edição de Ausência</title>
       </Head>
 
       <Layout>
-        {!employee ? (
+        {!absence ? (
           <RecordNotFound
-            title="Edição de Funcionário"
-            message="Funcionário não encontrado"
+            title="Edição de Ausência"
+            message="Ausência de funcionário não encontrada"
           />
         ) : (
-          <EmployeeForm
+          <AbsenceForm
             update
-            values={employee}
-            heading="Edição de Funcionário"
-            onHandleSubmit={handleUpdateEmployee}
-            onHandleCancel={() => router.push('/employee')}
+            heading={`Edição de Ausência - ${absence.employee.name}`}
+            values={absence}
+            onHandleSubmit={handleUpdateAbsence}
+            onHandleCancel={() => router.push('/absence')}
           />
         )}
       </Layout>
@@ -72,19 +72,19 @@ export default function EditEmployee({ employee }: EditEmployeeProps) {
 
 export const getServerSideProps = withSSRAuth(async (ctx) => {
   const apiClient = setupAPIClient(ctx)
-  const { cpf } = ctx.params
+  const { id } = ctx.params
 
   try {
-    const { data: employee } = await apiClient.get<IEmployee>(`/employee/${cpf}`)
+    const { data: absence } = await apiClient.get<IAbsence>(`/absence/${id}`)
     return {
       props: {
-        employee
+        absence
       }
     }
   } catch {
     return {
       props: {
-        employee: null
+        absence: null
       }
     }
   }

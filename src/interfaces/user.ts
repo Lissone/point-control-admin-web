@@ -2,7 +2,6 @@
 /* eslint-disable no-shadow */
 /* eslint-disable import/no-cycle */
 import { ICompany } from './company'
-import { IEmployee } from './employee'
 
 export enum UserRole {
   GlobalAdmin = 'global.admin',
@@ -12,18 +11,6 @@ export enum UserRole {
 export const UserRoleLabel = {
   [UserRole.GlobalAdmin]: 'Admin Global',
   [UserRole.Client]: 'Cliente'
-}
-
-export interface IAddress {
-  id: number
-  street: string
-  district: string
-  city: string
-  state: string
-  employeeCpf: string
-  createdAt: Date
-  updatedAt: Date
-  employee: IEmployee
 }
 
 export interface IUser {

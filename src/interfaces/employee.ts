@@ -1,6 +1,26 @@
 /* eslint-disable import/no-cycle */
+import { IAbsence } from './absence'
 import { ICompany } from './company'
-import { IAddress } from './user'
+
+export interface IPoint {
+  id: number
+  employeeCpf: string
+  createdAt: Date
+  updatedAt: Date
+  employee: IEmployee
+}
+
+export interface IAddress {
+  id: number
+  street: string
+  district: string
+  city: string
+  state: string
+  employeeCpf: string
+  createdAt: Date
+  updatedAt: Date
+  employee: IEmployee
+}
 
 export interface IEmployee {
   cpf: string
@@ -17,6 +37,8 @@ export interface IEmployee {
   updatedAt: Date
   company?: ICompany
   address?: IAddress
+  absences?: IAbsence[]
+  points?: IPoint[]
 }
 
 export interface EmployeeCreateUpdateDTO {

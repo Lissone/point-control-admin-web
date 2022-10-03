@@ -8,11 +8,12 @@ import { api, setupAPIClient } from '@services/api'
 
 import { CompanyForm } from '@components/CompanyForm'
 import { Layout } from '@components/Layout'
+import { RecordNotFound } from '@components/shared/RecordNotFound'
 
 import { withSSRAuth } from '@utils/withSSRAuth'
 
 interface EditCompanyProps {
-  company: ICompany
+  company: ICompany | null
 }
 
 export default function EditCompany({ company }: EditCompanyProps) {
@@ -50,13 +51,17 @@ export default function EditCompany({ company }: EditCompanyProps) {
       </Head>
 
       <Layout>
-        <CompanyForm
-          update
-          values={company}
-          heading="Edição de Empresa"
-          onHandleSubmit={handleUpdateCompany}
-          onHandleCancel={() => router.push('/company')}
-        />
+        {!company ? (
+          <RecordNotFound title="Edição de Empresa" message="Empresa não encontrada" />
+        ) : (
+          <CompanyForm
+            update
+            values={company}
+            heading="Edição de Empresa"
+            onHandleSubmit={handleUpdateCompany}
+            onHandleCancel={() => router.push('/company')}
+          />
+        )}
       </Layout>
     </>
   )
@@ -65,11 +70,19 @@ export default function EditCompany({ company }: EditCompanyProps) {
 export const getServerSideProps = withSSRAuth(async (ctx) => {
   const apiClient = setupAPIClient(ctx)
   const { cnpj } = ctx.params
-  const { data: company } = await apiClient.get<ICompany>(`/company/${cnpj}`)
 
-  return {
-    props: {
-      company
+  try {
+    const { data: company } = await apiClient.get<ICompany>(`/company/${cnpj}`)
+    return {
+      props: {
+        company
+      }
+    }
+  } catch {
+    return {
+      props: {
+        company: null
+      }
     }
   }
 })

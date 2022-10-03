@@ -22,8 +22,7 @@ import { api } from '@services/api'
 
 import { useAuth } from '@contexts/AuthContext'
 
-import { Input } from './Form/Input'
-import { Select } from './Form/Select'
+import { Input, Select } from '@components/shared/Form'
 
 type FormValuesType = Partial<EmployeeCreateUpdateDTO> & Partial<IEmployee>
 
@@ -115,6 +114,7 @@ export function EmployeeForm({
           <Input
             name="cpf"
             label="CPF"
+            isDisabled={read}
             placeholder="000.000.000-00"
             defaultValue={values.cpf}
             error={formState.errors.cpf}

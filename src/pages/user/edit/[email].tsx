@@ -7,12 +7,13 @@ import { IUser, UserCreateUpdateDTO } from '@interfaces/user'
 import { api, setupAPIClient } from '@services/api'
 
 import { Layout } from '@components/Layout'
+import { RecordNotFound } from '@components/shared/RecordNotFound'
 import { UserForm } from '@components/UserForm'
 
 import { withSSRAuth } from '@utils/withSSRAuth'
 
 interface EditUserProps {
-  user: IUser
+  user: IUser | null
 }
 
 export default function EditUser({ user }: EditUserProps) {
@@ -21,7 +22,7 @@ export default function EditUser({ user }: EditUserProps) {
 
   const handleUpdateUser = async (values: UserCreateUpdateDTO) => {
     api
-      .put(`/user/${user.email}`, values)
+      .put(`/user/${user.id}`, values)
       .then(() => {
         toast({
           title: 'Usuário atualizado!',
@@ -50,13 +51,17 @@ export default function EditUser({ user }: EditUserProps) {
       </Head>
 
       <Layout>
-        <UserForm
-          update
-          values={user}
-          heading="Edição de Usuário"
-          onHandleSubmit={handleUpdateUser}
-          onHandleCancel={() => router.push('/user')}
-        />
+        {!user ? (
+          <RecordNotFound title="Edição de Usuário" message="Usuário não encontrado" />
+        ) : (
+          <UserForm
+            update
+            values={user}
+            heading="Edição de Usuário"
+            onHandleSubmit={handleUpdateUser}
+            onHandleCancel={() => router.push('/user')}
+          />
+        )}
       </Layout>
     </>
   )
@@ -65,11 +70,19 @@ export default function EditUser({ user }: EditUserProps) {
 export const getServerSideProps = withSSRAuth(async (ctx) => {
   const apiClient = setupAPIClient(ctx)
   const { email } = ctx.params
-  const { data: user } = await apiClient.get<IUser>(`/user/${email}`)
 
-  return {
-    props: {
-      user
+  try {
+    const { data: user } = await apiClient.get<IUser>(`/user/${email}`)
+    return {
+      props: {
+        user
+      }
+    }
+  } catch {
+    return {
+      props: {
+        user: null
+      }
     }
   }
 })

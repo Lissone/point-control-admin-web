@@ -69,7 +69,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     destroyCookie(undefined, '@PointControlAdmin.token')
     setUser(null)
 
-    Router.push('../')
+    Router.push('/')
   }
 
   return (

@@ -13,7 +13,7 @@ interface SelectProps extends ChakraSelectProps {
   name: string
   options: {
     label: string
-    value: string
+    value: string | number
     selected?: boolean
   }[]
   label?: string

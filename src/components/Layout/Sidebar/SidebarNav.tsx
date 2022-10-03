@@ -10,7 +10,7 @@ import {
 
 import { UserRole } from '@interfaces/user'
 
-import { UserCanSee } from '@components/UserCanSee'
+import { UserCanSee } from '@components/shared/UserCanSee'
 
 import { NavLink } from './NavLink'
 import { NavSection } from './NavSection'

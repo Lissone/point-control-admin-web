@@ -15,7 +15,7 @@ import * as yup from 'yup'
 
 import { CompanyCreateUpdateDTO, ICompany } from '@interfaces/company'
 
-import { Input } from './Form/Input'
+import { Input } from '@components/shared/Form'
 
 type FormValuesType = Partial<CompanyCreateUpdateDTO> & Partial<ICompany>
 
@@ -129,7 +129,6 @@ const validateCnpj = (cnpj: string) => {
   else if (cnpj.length > 14) return 'Máximo 14 dígitos'
 }
 
-// mesmo schema para Create e Update
 const validationSchema = yup.object().shape({
   cnpj: yup.string(),
   name: yup.string().required('Razão Social obrigatória')

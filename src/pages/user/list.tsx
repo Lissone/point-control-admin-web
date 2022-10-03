@@ -121,7 +121,15 @@ function UsersListContent({ state }: UsersListContentProps) {
   if (error || !users) {
     return (
       <Flex justify="center">
-        <Text>Falha ao obter dados dos usuários</Text>
+        <Text>Falha ao obter dados</Text>
+      </Flex>
+    )
+  }
+
+  if (users.length === 0) {
+    return (
+      <Flex justify="center">
+        <Text color="red.500">Nenhum usuário cadastrado</Text>
       </Flex>
     )
   }

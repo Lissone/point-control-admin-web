@@ -121,7 +121,15 @@ function CompaniesListContent({ state }: CompaniesListContentProps) {
   if (error || !companies) {
     return (
       <Flex justify="center">
-        <Text>Falha ao obter dados dos usuários</Text>
+        <Text>Falha ao obter dados</Text>
+      </Flex>
+    )
+  }
+
+  if (companies.length === 0) {
+    return (
+      <Flex justify="center">
+        <Text color="red.500">Nenhuma empresa cadastrada</Text>
       </Flex>
     )
   }

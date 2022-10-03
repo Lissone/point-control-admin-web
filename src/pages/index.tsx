@@ -6,7 +6,7 @@ import * as yup from 'yup'
 
 import { SignInData, useAuth } from '@contexts/AuthContext'
 
-import { Input } from '@components/Form/Input'
+import { Input } from '@components/shared/Form'
 
 import { withSSRGuest } from '@utils/withSSRGuest'
 

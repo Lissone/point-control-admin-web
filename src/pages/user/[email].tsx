@@ -6,12 +6,13 @@ import { IUser } from '@interfaces/user'
 import { setupAPIClient } from '@services/api'
 
 import { Layout } from '@components/Layout'
+import { RecordNotFound } from '@components/shared/RecordNotFound'
 import { UserForm } from '@components/UserForm'
 
 import { withSSRAuth } from '@utils/withSSRAuth'
 
 interface UserProps {
-  user: IUser
+  user: IUser | null
 }
 
 export default function User({ user }: UserProps) {
@@ -20,16 +21,20 @@ export default function User({ user }: UserProps) {
   return (
     <>
       <Head>
-        <title>PointControl | {user.name}</title>
+        <title>PointControl | {user ? user.name : 'Usuário'}</title>
       </Head>
 
       <Layout>
-        <UserForm
-          read
-          heading={user.name}
-          values={user}
-          onHandleCancel={() => router.push('/user')}
-        />
+        {!user ? (
+          <RecordNotFound title="Usuário" message="Usuário não encontrado" />
+        ) : (
+          <UserForm
+            read
+            heading={user.name}
+            values={user}
+            onHandleCancel={() => router.push('/user')}
+          />
+        )}
       </Layout>
     </>
   )
@@ -38,11 +43,19 @@ export default function User({ user }: UserProps) {
 export const getServerSideProps = withSSRAuth(async (ctx) => {
   const apiClient = setupAPIClient(ctx)
   const { email } = ctx.params
-  const { data: user } = await apiClient.get<IUser>(`/user/${email}`)
 
-  return {
-    props: {
-      user
+  try {
+    const { data: user } = await apiClient.get<IUser>(`/user/${email}`)
+    return {
+      props: {
+        user
+      }
+    }
+  } catch {
+    return {
+      props: {
+        user: null
+      }
     }
   }
 })

@@ -7,11 +7,12 @@ import { setupAPIClient } from '@services/api'
 
 import { EmployeeForm } from '@components/EmployeeForm'
 import { Layout } from '@components/Layout'
+import { RecordNotFound } from '@components/shared/RecordNotFound'
 
 import { withSSRAuth } from '@utils/withSSRAuth'
 
 interface EmployeeProps {
-  employee: IEmployee
+  employee: IEmployee | null
 }
 
 export default function Employee({ employee }: EmployeeProps) {
@@ -20,16 +21,20 @@ export default function Employee({ employee }: EmployeeProps) {
   return (
     <>
       <Head>
-        <title>PointControl | {employee.name}</title>
+        <title>PointControl | {employee ? employee.name : 'Funcionário'}</title>
       </Head>
 
       <Layout>
-        <EmployeeForm
-          read
-          heading={employee.name}
-          values={employee}
-          onHandleCancel={() => router.push('/employee')}
-        />
+        {!employee ? (
+          <RecordNotFound title="Funcionário" message="Funcionário não encontrado" />
+        ) : (
+          <EmployeeForm
+            read
+            heading={employee.name}
+            values={employee}
+            onHandleCancel={() => router.push('/employee')}
+          />
+        )}
       </Layout>
     </>
   )
@@ -38,11 +43,19 @@ export default function Employee({ employee }: EmployeeProps) {
 export const getServerSideProps = withSSRAuth(async (ctx) => {
   const apiClient = setupAPIClient(ctx)
   const { cpf } = ctx.params
-  const { data: employee } = await apiClient.get<IEmployee>(`/employee/${cpf}`)
 
-  return {
-    props: {
-      employee
+  try {
+    const { data: employee } = await apiClient.get<IEmployee>(`/employee/${cpf}`)
+    return {
+      props: {
+        employee
+      }
+    }
+  } catch {
+    return {
+      props: {
+        employee: null
+      }
     }
   }
 })
