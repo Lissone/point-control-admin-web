@@ -47,7 +47,7 @@ export default function EditAbsence({ absence }: EditAbsenceProps) {
   return (
     <>
       <Head>
-        <title>PointControl | Edição de Ausência</title>
+        <title>PointControl - Edição de Ausência</title>
       </Head>
 
       <Layout>

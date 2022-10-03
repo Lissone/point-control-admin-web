@@ -65,7 +65,7 @@ export default function Dashboard() {
   return (
     <>
       <Head>
-        <title>PointControl | Dashboard</title>
+        <title>PointControl - Dashboard</title>
       </Head>
 
       <Layout>

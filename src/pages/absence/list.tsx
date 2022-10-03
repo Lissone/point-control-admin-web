@@ -81,7 +81,7 @@ export default function AbsencesList() {
   return (
     <>
       <Head>
-        <title>PointControl | Ausências</title>
+        <title>PointControl - Ausências</title>
       </Head>
 
       <Layout>

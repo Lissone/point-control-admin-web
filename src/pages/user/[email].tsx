@@ -21,7 +21,7 @@ export default function User({ user }: UserProps) {
   return (
     <>
       <Head>
-        <title>PointControl | {user ? user.name : 'Usuário'}</title>
+        <title>PointControl - {user ? user.name : 'Usuário'}</title>
       </Head>
 
       <Layout>

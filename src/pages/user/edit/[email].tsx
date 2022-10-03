@@ -47,7 +47,7 @@ export default function EditUser({ user }: EditUserProps) {
   return (
     <>
       <Head>
-        <title>PointControl | Edição de Usuário</title>
+        <title>PointControl - Edição de Usuário</title>
       </Head>
 
       <Layout>

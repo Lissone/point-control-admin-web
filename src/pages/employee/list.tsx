@@ -67,7 +67,7 @@ export default function EmployeesList() {
   return (
     <>
       <Head>
-        <title>PointControl | Lista de Funcionários</title>
+        <title>PointControl - Lista de Funcionários</title>
       </Head>
 
       <Layout>

@@ -14,6 +14,7 @@ export interface SignInData {
 
 interface AuthContextType {
   user: IUser | null
+  changePassword: (newPassword: string) => Promise<void>
   signIn: (data: SignInData) => Promise<void>
   signOut: () => void
 }
@@ -37,7 +38,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }, [])
 
-  async function signIn({ email, password }: SignInData) {
+  const signIn = async ({ email, password }: SignInData) => {
     try {
       const { data } = await api.post('/user/login/admin', {
         email,
@@ -65,7 +66,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
-  function signOut() {
+  const changePassword = async (newPassword: string) => {
+    const { data } = await api.patch('/user/change/password/admin', { newPassword })
+    setUser(data)
+
+    Router.push('/dashboard')
+  }
+
+  const signOut = () => {
     destroyCookie(undefined, '@PointControlAdmin.token')
     setUser(null)
 
@@ -77,7 +85,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
       value={{
         user,
         signIn,
-        signOut
+        signOut,
+        changePassword
       }}
     >
       {children}

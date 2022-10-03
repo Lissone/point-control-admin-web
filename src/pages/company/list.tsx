@@ -66,7 +66,7 @@ export default function CompaniesList() {
   return (
     <>
       <Head>
-        <title>PointControl | Lista de Empresas</title>
+        <title>PointControl - Lista de Empresas</title>
       </Head>
 
       <Layout>

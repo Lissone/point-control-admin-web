@@ -42,7 +42,7 @@ export default function CreateUser() {
   return (
     <>
       <Head>
-        <title>PointControl | Cadastro de Usuário</title>
+        <title>PointControl - Cadastro de Usuário</title>
       </Head>
 
       <Layout>

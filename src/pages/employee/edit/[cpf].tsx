@@ -47,7 +47,7 @@ export default function EditEmployee({ employee }: EditEmployeeProps) {
   return (
     <>
       <Head>
-        <title>PointControl | Edição de Funcionário</title>
+        <title>PointControl - Edição de Funcionário</title>
       </Head>
 
       <Layout>

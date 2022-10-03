@@ -47,7 +47,7 @@ export default function EditCompany({ company }: EditCompanyProps) {
   return (
     <>
       <Head>
-        <title>PointControl | Edição de Empresa</title>
+        <title>PointControl - Edição de Empresa</title>
       </Head>
 
       <Layout>

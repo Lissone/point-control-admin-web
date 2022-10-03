@@ -47,7 +47,7 @@ export default function ReviewAbsence({ absence }: ReviewAbsenceProps) {
   return (
     <>
       <Head>
-        <title>PointControl | Análise de Ausência</title>
+        <title>PointControl - Análise de Ausência</title>
       </Head>
 
       <Layout>

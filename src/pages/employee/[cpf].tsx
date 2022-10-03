@@ -21,7 +21,7 @@ export default function Employee({ employee }: EmployeeProps) {
   return (
     <>
       <Head>
-        <title>PointControl | {employee ? employee.name : 'Funcionário'}</title>
+        <title>PointControl - {employee ? employee.name : 'Funcionário'}</title>
       </Head>
 
       <Layout>

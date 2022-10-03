@@ -66,7 +66,7 @@ export default function UsersList() {
   return (
     <>
       <Head>
-        <title>PointControl | Lista de Usuários</title>
+        <title>PointControl - Lista de Usuários</title>
       </Head>
 
       <Layout>

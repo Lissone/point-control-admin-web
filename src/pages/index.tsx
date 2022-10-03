@@ -33,7 +33,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>PointControl | Login</title>
+        <title>PointControl - Login</title>
       </Head>
 
       <Flex w="100vw" h="100vh" align="center" justify="center">

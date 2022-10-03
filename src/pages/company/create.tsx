@@ -42,7 +42,7 @@ export default function CreateCompany() {
   return (
     <>
       <Head>
-        <title>PointControl | Cadastro de Empresa</title>
+        <title>PointControl - Cadastro de Empresa</title>
       </Head>
 
       <Layout>

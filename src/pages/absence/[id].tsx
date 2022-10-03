@@ -21,7 +21,7 @@ export default function Absence({ absence }: AbsenceProps) {
   return (
     <>
       <Head>
-        <title>PointControl | Ausência</title>
+        <title>PointControl - Ausência</title>
       </Head>
 
       <Layout>

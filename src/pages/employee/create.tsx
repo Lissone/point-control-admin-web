@@ -42,7 +42,7 @@ export default function CreateEmployee() {
   return (
     <>
       <Head>
-        <title>PointControl | Cadastro de Funcionário</title>
+        <title>PointControl - Cadastro de Funcionário</title>
       </Head>
 
       <Layout>
