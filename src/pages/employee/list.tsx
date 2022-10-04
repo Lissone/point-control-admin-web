@@ -123,7 +123,7 @@ function EmployeesListContent({ state, user }: EmployeesListContentProps) {
   if (error || !employees) {
     return (
       <Flex justify="center">
-        <Text>Falha ao obter dados</Text>
+        <Text color="red.500">Falha ao obter dados</Text>
       </Flex>
     )
   }

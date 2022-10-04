@@ -19,6 +19,7 @@ export interface IUser {
   email: string
   password: string
   role: string
+  firstAccess: boolean
   companyCnpj?: string | null
   createdAt: Date
   updatedAt: Date

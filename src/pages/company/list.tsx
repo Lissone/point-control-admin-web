@@ -21,6 +21,7 @@ import { useEffect, useState } from 'react'
 import { RiAddLine, RiPencilLine } from 'react-icons/ri'
 
 import { ICompany } from '@interfaces/company'
+import { UserRole } from '@interfaces/user'
 
 import { api } from '@services/api'
 
@@ -121,7 +122,7 @@ function CompaniesListContent({ state }: CompaniesListContentProps) {
   if (error || !companies) {
     return (
       <Flex justify="center">
-        <Text>Falha ao obter dados</Text>
+        <Text color="red.500">Falha ao obter dados</Text>
       </Flex>
     )
   }
@@ -180,6 +181,9 @@ function CompaniesListContent({ state }: CompaniesListContentProps) {
   )
 }
 
-export const getServerSideProps = withSSRAuth(async () => ({
-  props: {}
-}))
+export const getServerSideProps = withSSRAuth(
+  async () => ({
+    props: {}
+  }),
+  { roles: [UserRole.GlobalAdmin] }
+)

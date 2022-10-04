@@ -3,6 +3,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 
 import { CompanyCreateUpdateDTO, ICompany } from '@interfaces/company'
+import { UserRole } from '@interfaces/user'
 
 import { api, setupAPIClient } from '@services/api'
 
@@ -67,22 +68,25 @@ export default function EditCompany({ company }: EditCompanyProps) {
   )
 }
 
-export const getServerSideProps = withSSRAuth(async (ctx) => {
-  const apiClient = setupAPIClient(ctx)
-  const { cnpj } = ctx.params
+export const getServerSideProps = withSSRAuth(
+  async (ctx) => {
+    const apiClient = setupAPIClient(ctx)
+    const { cnpj } = ctx.params
 
-  try {
-    const { data: company } = await apiClient.get<ICompany>(`/company/${cnpj}`)
-    return {
-      props: {
-        company
+    try {
+      const { data: company } = await apiClient.get<ICompany>(`/company/${cnpj}`)
+      return {
+        props: {
+          company
+        }
+      }
+    } catch {
+      return {
+        props: {
+          company: null
+        }
       }
     }
-  } catch {
-    return {
-      props: {
-        company: null
-      }
-    }
-  }
-})
+  },
+  { roles: [UserRole.GlobalAdmin] }
+)

@@ -2,7 +2,7 @@ import { useToast } from '@chakra-ui/react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 
-import { UserCreateUpdateDTO } from '@interfaces/user'
+import { UserCreateUpdateDTO, UserRole } from '@interfaces/user'
 
 import { api } from '@services/api'
 
@@ -65,6 +65,9 @@ const emptyForm: UserCreateUpdateDTO = {
   companyCnpj: null
 }
 
-export const getServerSideProps = withSSRAuth(async () => ({
-  props: {}
-}))
+export const getServerSideProps = withSSRAuth(
+  async () => ({
+    props: {}
+  }),
+  { roles: [UserRole.GlobalAdmin] }
+)

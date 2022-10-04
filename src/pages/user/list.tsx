@@ -20,7 +20,7 @@ import NextLink from 'next/link'
 import { useEffect, useState } from 'react'
 import { RiAddLine, RiSearchLine, RiPencilLine } from 'react-icons/ri'
 
-import { IUser, UserRoleLabel } from '@interfaces/user'
+import { IUser, UserRole, UserRoleLabel } from '@interfaces/user'
 
 import { api } from '@services/api'
 
@@ -121,7 +121,7 @@ function UsersListContent({ state }: UsersListContentProps) {
   if (error || !users) {
     return (
       <Flex justify="center">
-        <Text>Falha ao obter dados</Text>
+        <Text color="red.500">Falha ao obter dados</Text>
       </Flex>
     )
   }
@@ -198,6 +198,9 @@ function UsersListContent({ state }: UsersListContentProps) {
   )
 }
 
-export const getServerSideProps = withSSRAuth(async () => ({
-  props: {}
-}))
+export const getServerSideProps = withSSRAuth(
+  async () => ({
+    props: {}
+  }),
+  { roles: [UserRole.GlobalAdmin] }
+)

@@ -2,7 +2,7 @@ import { useToast } from '@chakra-ui/react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 
-import { IUser, UserCreateUpdateDTO } from '@interfaces/user'
+import { IUser, UserCreateUpdateDTO, UserRole } from '@interfaces/user'
 
 import { api, setupAPIClient } from '@services/api'
 
@@ -67,22 +67,25 @@ export default function EditUser({ user }: EditUserProps) {
   )
 }
 
-export const getServerSideProps = withSSRAuth(async (ctx) => {
-  const apiClient = setupAPIClient(ctx)
-  const { email } = ctx.params
+export const getServerSideProps = withSSRAuth(
+  async (ctx) => {
+    const apiClient = setupAPIClient(ctx)
+    const { email } = ctx.params
 
-  try {
-    const { data: user } = await apiClient.get<IUser>(`/user/${email}`)
-    return {
-      props: {
-        user
+    try {
+      const { data: user } = await apiClient.get<IUser>(`/user/${email}`)
+      return {
+        props: {
+          user
+        }
+      }
+    } catch {
+      return {
+        props: {
+          user: null
+        }
       }
     }
-  } catch {
-    return {
-      props: {
-        user: null
-      }
-    }
-  }
-})
+  },
+  { roles: [UserRole.GlobalAdmin] }
+)

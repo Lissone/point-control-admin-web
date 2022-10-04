@@ -10,15 +10,11 @@ import { Input } from '@components/shared/Form'
 
 import { withSSRGuest } from '@utils/withSSRGuest'
 
-const formSchema = yup.object().shape({
-  email: yup.string().required('E-mail obrigatório').email('Digite um e-mail válido'),
-  password: yup.string().required('Senha obrigatória')
-})
-
-export default function Home() {
+export default function SignIn() {
   const { signIn } = useAuth()
+
   const { register, handleSubmit, setError, formState } = useForm({
-    resolver: yupResolver(formSchema)
+    resolver: yupResolver(validationSchema)
   })
 
   const handleSignIn: SubmitHandler<SignInData> = async (values) => {
@@ -78,6 +74,11 @@ export default function Home() {
     </>
   )
 }
+
+const validationSchema = yup.object().shape({
+  email: yup.string().required('E-mail obrigatório').email('Digite um e-mail válido'),
+  password: yup.string().required('Senha obrigatória')
+})
 
 export const getServerSideProps = withSSRGuest(async () => ({
   props: {}

@@ -3,6 +3,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 
 import { CompanyCreateUpdateDTO } from '@interfaces/company'
+import { UserRole } from '@interfaces/user'
 
 import { api } from '@services/api'
 
@@ -63,6 +64,9 @@ const emptyForm: CompanyCreateUpdateDTO = {
   name: ''
 }
 
-export const getServerSideProps = withSSRAuth(async () => ({
-  props: {}
-}))
+export const getServerSideProps = withSSRAuth(
+  async () => ({
+    props: {}
+  }),
+  { roles: [UserRole.GlobalAdmin] }
+)

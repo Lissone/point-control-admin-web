@@ -40,7 +40,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const signIn = async ({ email, password }: SignInData) => {
     try {
-      const { data } = await api.post('/user/login/admin', {
+      interface SignInDataResponse {
+        user: IUser
+        token: string
+        tokenExpires: number
+      }
+      const { data } = await api.post<SignInDataResponse>('/user/login/admin', {
         email,
         password
       })
@@ -53,7 +58,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       setUser(data.user)
 
-      Router.push('/dashboard')
+      if (data.user.firstAccess) Router.push('/change/password')
+      else Router.push('/dashboard')
     } catch (err: any) {
       switch (err.response.data.message) {
         case 'User not found':
