@@ -1,12 +1,19 @@
-import { Text } from '@chakra-ui/react'
+import { HStack, Image, Text, useBreakpointValue } from '@chakra-ui/react'
 
 export function Logo() {
+  const isWideVersion = useBreakpointValue({
+    base: false,
+    md: true
+  })
+
   return (
-    <Text fontSize={['2xl', '3xl']} fontWeight="bold" letterSpacing="tight" w="64">
-      Point Control
-      <Text as="span" ml="1" color="green.500">
-        .
-      </Text>
-    </Text>
+    <HStack w="64">
+      <Image src="/favicon.png" w={isWideVersion ? 10 : 12} />
+      {isWideVersion && (
+        <Text fontSize={['xl', '2xl', '3xl']} fontWeight="bold" letterSpacing="tight">
+          Point Control
+        </Text>
+      )}
+    </HStack>
   )
 }
