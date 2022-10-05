@@ -1,8 +1,9 @@
-import { Box, SimpleGrid, Text, theme } from '@chakra-ui/react'
+import { Box, SimpleGrid, Text, theme, VStack } from '@chakra-ui/react'
 import { ApexOptions } from 'apexcharts'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 
+import { PointsOfDayTable } from '@components/Dashboard/PointsOfDayTable'
 import { Layout } from '@components/Layout'
 
 import { withSSRAuth } from '@utils/withSSRAuth'
@@ -69,21 +70,34 @@ export default function Dashboard() {
       </Head>
 
       <Layout>
-        <SimpleGrid flex="1" gap="4" minChildWidth="320px" align="flex-start">
-          <Box p={['6', '8']} bg="gray.800" borderRadius={8} pb="4">
-            <Text fontSize="lg" mb="4">
-              Inscritos da semana
-            </Text>
-            <Chart options={options} series={series} type="area" height={160} />
-          </Box>
+        <Box flex="1" borderRadius={8} p={['6', '8']}>
+          <VStack spacing="8">
+            <SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
+              <Box p={['6', '8']} bg="gray.800" borderRadius={8} pb="4">
+                <Text fontSize="lg" mb="4">
+                  Pontos batidos hoje
+                </Text>
+                <PointsOfDayTable />
+              </Box>
+            </SimpleGrid>
 
-          <Box p="8" bg="gray.800" borderRadius={8} pb="4">
-            <Text fontSize="lg" mb="4">
-              Taxa de abertura
-            </Text>
-            <Chart options={options} series={series} type="area" height={160} />
-          </Box>
-        </SimpleGrid>
+            <SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
+              <Box p={['6', '8']} bg="gray.800" borderRadius={8} pb="4">
+                <Text fontSize="lg" mb="4">
+                  Pontos batidos na semana
+                </Text>
+                <Chart options={options} series={series} type="area" height={160} />
+              </Box>
+
+              <Box p="8" bg="gray.800" borderRadius={8} pb="4">
+                <Text fontSize="lg" mb="4">
+                  Taxa de pontos por funcionário
+                </Text>
+                <Chart options={options} series={series} type="area" height={160} />
+              </Box>
+            </SimpleGrid>
+          </VStack>
+        </Box>
       </Layout>
     </>
   )
