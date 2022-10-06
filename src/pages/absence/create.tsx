@@ -49,7 +49,7 @@ export default function CreateAbsence() {
         <AbsenceForm
           create
           values={emptyForm}
-          heading="Cadastro de Empresa"
+          heading="Cadastro de Ausência"
           onHandleSubmit={handleCreateAbsence}
           onHandleCancel={() => router.push('/absence')}
         />
@@ -63,8 +63,8 @@ const emptyForm: AbsenceCreateUpdateDTO = {
   type: '',
   employeeCpf: null,
   description: '',
-  startTime: '',
-  endTime: '',
+  startTime: null,
+  endTime: null,
   justification: ''
 }
 

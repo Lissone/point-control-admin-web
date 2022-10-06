@@ -20,8 +20,8 @@ export interface IAbsence {
   status: AbsenceStatus
   type: string
   description: string | null
-  startTime: string
-  endTime: string
+  startTime: Date
+  endTime: Date
   employeeCpf: string
   justification: string | null
   createdAt: Date
@@ -33,8 +33,8 @@ export interface AbsenceCreateUpdateDTO {
   status: AbsenceStatus
   type: string
   description: string | null
-  startTime: string
-  endTime: string
+  startTime: Date
+  endTime: Date
   justification: string | null
   employeeCpf?: string | null
 }

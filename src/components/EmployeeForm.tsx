@@ -13,6 +13,7 @@ import { format } from 'date-fns'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import InputMask from 'react-input-mask'
 import * as yup from 'yup'
 
 import { ICompany } from '@interfaces/company'
@@ -112,10 +113,12 @@ export function EmployeeForm({
       <VStack spacing="8">
         <SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
           <Input
+            as={InputMask}
+            mask="999.999.999-99"
+            maskChar={null}
             name="cpf"
             label="CPF"
             isDisabled={read}
-            placeholder="000.000.000-00"
             defaultValue={values.cpf}
             error={formState.errors.cpf}
             {...register('cpf', { disabled: read || update })}
@@ -237,7 +240,7 @@ const validateCpf = (cpf: string) => {
 
 // mesmo schema para Create e Update
 const validationSchema = yup.object().shape({
-  cpf: yup.string().min(11, 'Mínimo 11 dígitos').max(11, 'Máximo 11 dígitos'),
+  cpf: yup.string().min(11, 'Mínimo 11 dígitos'),
   name: yup.string().required('Nome obrigatório'),
   email: yup.string().required('E-mail obrigatório').email('E-mail inválido'),
   companyCnpj: yup.string().required('Empresa obrigatória'),

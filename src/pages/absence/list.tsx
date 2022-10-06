@@ -20,6 +20,7 @@ import {
   TabPanels,
   TabPanel
 } from '@chakra-ui/react'
+import { format } from 'date-fns'
 import Head from 'next/head'
 import NextLink from 'next/link'
 import { useEffect, useState } from 'react'
@@ -201,8 +202,12 @@ function AbsencesTableToReview({ state }: AbsencesTableProps) {
                 </Box>
               </Td>
               <Td>{absence.type}</Td>
-              {isWideVersion && <Td>{absence.startTime}</Td>}
-              {isWideVersion && <Td>{absence.endTime}</Td>}
+              {isWideVersion && (
+                <Td>{format(new Date(absence.startTime), 'dd/MM/yyyy HH:MM')}</Td>
+              )}
+              {isWideVersion && (
+                <Td>{format(new Date(absence.endTime), 'dd/MM/yyyy HH:MM')}</Td>
+              )}
             </Tr>
           ))}
         </Tbody>
@@ -290,8 +295,12 @@ function AbsencesTable({ state }: AbsencesTableProps) {
                 </Box>
               </Td>
               {isWideVersion && <Td>{absence.type}</Td>}
-              {isWideVersion && <Td>{absence.startTime}</Td>}
-              {isWideVersion && <Td>{absence.endTime}</Td>}
+              {isWideVersion && (
+                <Td>{format(new Date(absence.startTime), 'dd/MM/yyyy HH:MM')}</Td>
+              )}
+              {isWideVersion && (
+                <Td>{format(new Date(absence.endTime), 'dd/MM/yyyy HH:MM')}</Td>
+              )}
               {isWideVersion && (
                 <Td>
                   <NextLink href={`/absence/edit/${absence.id}`} passHref>

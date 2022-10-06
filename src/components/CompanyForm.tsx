@@ -11,6 +11,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRouter } from 'next/router'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import InputMask from 'react-input-mask'
 import * as yup from 'yup'
 
 import { CompanyCreateUpdateDTO, ICompany } from '@interfaces/company'
@@ -88,9 +89,11 @@ export function CompanyForm({
       <VStack spacing="8">
         <SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
           <Input
+            as={InputMask}
+            mask="99.999.999/9999-99"
+            maskChar={null}
             name="cnpj"
             label="CNPJ"
-            placeholder="00.000.000/0000-00"
             defaultValue={values.cnpj}
             error={formState.errors.cnpj}
             {...register('cnpj', { disabled: update })}

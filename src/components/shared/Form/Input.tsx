@@ -13,6 +13,8 @@ interface InputProps extends ChakraInputProps {
   name: string
   label?: string
   error?: FieldError
+  mask?: string
+  maskChar?: string
 }
 
 export const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (

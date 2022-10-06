@@ -9,6 +9,7 @@ import {
   VStack
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { format } from 'date-fns'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -83,6 +84,8 @@ export function AbsenceForm({
       ...formValues,
       status: Number(formValues.status),
       description: formValues.description === '' ? null : formValues.description,
+      startTime: new Date(formValues.startTime),
+      endTime: new Date(formValues.endTime),
       justification: formValues.justification === '' ? null : formValues.justification
     })
   }
@@ -140,7 +143,7 @@ export function AbsenceForm({
         </SimpleGrid>
 
         <SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
-          {create && employees.length > 0 && (
+          {create && (
             <Select
               name="employeeCpf"
               label="Funcionário"
@@ -164,22 +167,28 @@ export function AbsenceForm({
         <SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
           <Input
             name="startTime"
-            type="time"
+            type="datetime-local"
             label="Horário de inicio"
-            placeholder="Selecione o horário"
+            placeholder="Selecione a data"
             isDisabled={read}
-            defaultValue={values.startTime}
+            defaultValue={
+              values.startTime
+                ? format(new Date(values.startTime), 'yyyy-MM-dd HH:MM')
+                : ''
+            }
             style={{ colorScheme: 'dark' }}
             error={formState.errors.startTime}
             {...register('startTime')}
           />
           <Input
             name="endTime"
-            type="time"
+            type="datetime-local"
             label="Horário de retorno"
-            placeholder="Selecione o horário"
+            placeholder="Selecione a data"
             isDisabled={read}
-            defaultValue={values.endTime}
+            defaultValue={
+              values.endTime ? format(new Date(values.endTime), 'yyyy-MM-dd HH:MM') : ''
+            }
             style={{ colorScheme: 'dark' }}
             error={formState.errors.endTime}
             {...register('endTime')}
@@ -229,8 +238,8 @@ const validationSchema = yup.object().shape({
     then: (schema) => schema.required('Funcionário obrigatório')
   }),
   description: yup.string(),
-  startTime: yup.string().required('Horário de inicio obrigatório'),
-  endTime: yup.string().required('Horário de retorno obrigatório'),
+  startTime: yup.date().required('Horário de inicio obrigatório'),
+  endTime: yup.date().required('Horário de retorno obrigatório'),
   justification: yup.string().when('status', {
     is: String(AbsenceStatus.Negado),
     then: (schema) => schema.required('Status obrigatório')

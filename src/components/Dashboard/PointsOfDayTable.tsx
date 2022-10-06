@@ -23,6 +23,8 @@ import { IPoint } from '@interfaces/employee'
 
 import { api } from '@services/api'
 
+import { useAuth } from '@contexts/AuthContext'
+
 import { Pagination } from '@components/Pagination'
 
 interface PointsListState {
@@ -32,6 +34,7 @@ interface PointsListState {
 }
 
 export function PointsOfDayTable() {
+  const { user } = useAuth()
   const toast = useToast()
   const [page, setPage] = useState(1)
   const [state, setState] = useState<PointsListState>({ isLoading: false })
@@ -87,12 +90,15 @@ export function PointsOfDayTable() {
     )
   }
 
+  const userHasCompany = !!user?.companyCnpj
+
   return (
     <>
       <Table colorScheme="whiteAlpha">
         <Thead>
           <Tr>
             <Th>Usuário</Th>
+            {isWideVersion && !userHasCompany && <Th>Empresa</Th>}
             <Th>Ponto batido</Th>
             {isWideVersion && <Th w="8" />}
           </Tr>
@@ -109,6 +115,7 @@ export function PointsOfDayTable() {
                   </Text>
                 </Box>
               </Td>
+              {isWideVersion && !userHasCompany && <Td>{point.employee.companyCnpj}</Td>}
               <Td>{format(new Date(point.createdAt), 'dd/MM/yyyy - HH:MM')}</Td>
               {isWideVersion && (
                 <Td>
