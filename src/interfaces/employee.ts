@@ -51,4 +51,10 @@ export interface EmployeeCreateUpdateDTO {
   entry: string
   exit: string
   workingTime: number
+  address: {
+    street: string
+    district: string
+    city: string
+    state: string
+  }
 }

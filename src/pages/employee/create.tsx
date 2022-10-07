@@ -67,7 +67,13 @@ const emptyForm: EmployeeCreateUpdateDTO = {
   dtBirth: null,
   entry: '',
   exit: '',
-  workingTime: 0
+  workingTime: 0,
+  address: {
+    street: '',
+    district: '',
+    city: '',
+    state: ''
+  }
 }
 
 export const getServerSideProps = withSSRAuth(async () => ({

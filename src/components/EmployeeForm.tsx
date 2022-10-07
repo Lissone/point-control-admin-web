@@ -6,6 +6,7 @@ import {
   Heading,
   HStack,
   SimpleGrid,
+  Text,
   VStack
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -25,7 +26,7 @@ import { useAuth } from '@contexts/AuthContext'
 
 import { Input, Select } from '@components/shared/Form'
 
-type FormValuesType = Partial<EmployeeCreateUpdateDTO> & Partial<IEmployee>
+type FormValuesType = EmployeeCreateUpdateDTO | IEmployee
 
 interface EmployeeFormProps {
   heading: string
@@ -58,18 +59,24 @@ export function EmployeeForm({
     formValues
   ) => {
     let cpf: string
-    if (read || update) {
-      cpf = values.cpf
-    } else {
-      cpf = formValues.cpf.replace(/\D/g, '')
-      const cpfError = validateCpf(cpf)
-      if (cpfError) {
-        setError('cpf', { type: 'custom', message: cpfError })
-        return
+
+    if (read || create) {
+      if (read) {
+        cpf = values.cpf
+      } else {
+        cpf = formValues.cpf.replace(/\D/g, '')
+        const cpfError = validateCpf(cpf)
+        if (cpfError) {
+          setError('cpf', { type: 'custom', message: cpfError })
+          return
+        }
       }
+
+      await onHandleSubmit({ ...formValues, cpf })
+      return
     }
 
-    await onHandleSubmit({ ...formValues, cpf })
+    await onHandleSubmit(formValues)
   }
 
   useEffect(() => {
@@ -110,106 +117,160 @@ export function EmployeeForm({
 
       <Divider my="6" borderColor="gray.700" />
 
-      <VStack spacing="8">
-        <SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
-          <Input
-            as={InputMask}
-            mask="999.999.999-99"
-            maskChar={null}
-            name="cpf"
-            label="CPF"
-            isDisabled={read}
-            defaultValue={values.cpf}
-            error={formState.errors.cpf}
-            {...register('cpf', { disabled: read || update })}
-          />
-          <Input
-            name="name"
-            label="Nome completo"
-            isDisabled={read}
-            defaultValue={values.name}
-            error={formState.errors.name}
-            {...register('name')}
-          />
-          <Input
-            name="email"
-            label="E-mail"
-            isDisabled={read}
-            defaultValue={values.email}
-            error={formState.errors.email}
-            {...register('email')}
-          />
-        </SimpleGrid>
+      <VStack spacing="12">
+        <VStack spacing="8" w="100%">
+          <Box w="100%" justify="start">
+            <Text fontSize="xl" fontWeight="bold">
+              Dados pessoais
+            </Text>
+          </Box>
 
-        <SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
-          <Select
-            name="companyCnpj"
-            label="Empresa"
-            isDisabled={read}
-            options={companies.map((company) => ({
-              label: company.name,
-              value: company.cnpj,
-              selected: company.cnpj === values.companyCnpj
-            }))}
-            error={formState.errors.companyCnpj}
-            {...register('companyCnpj', { value: values.companyCnpj })}
-          />
-          <Input
-            name="role"
-            label="Cargo"
-            isDisabled={read}
-            defaultValue={values.role}
-            error={formState.errors.role}
-            {...register('role')}
-          />
-          <Input
-            name="dtBirth"
-            type="date"
-            label="Data de Nascimento"
-            placeholder="Selecione a data"
-            isDisabled={read}
-            defaultValue={
-              values.dtBirth ? format(new Date(values.dtBirth), 'yyyy-MM-dd') : ''
-            }
-            style={{ colorScheme: 'dark' }}
-            error={formState.errors.dtBirth}
-            {...register('dtBirth')}
-          />
-        </SimpleGrid>
+          <SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
+            <Input
+              as={InputMask}
+              mask="999.999.999-99"
+              maskChar={null}
+              name="cpf"
+              label="CPF"
+              isDisabled={read}
+              defaultValue={values.cpf}
+              error={formState.errors.cpf}
+              {...register('cpf', { disabled: read || update })}
+            />
+            <Input
+              name="name"
+              label="Nome completo"
+              isDisabled={read}
+              defaultValue={values.name}
+              error={formState.errors.name}
+              {...register('name')}
+            />
+            <Input
+              name="email"
+              label="E-mail"
+              isDisabled={read}
+              defaultValue={values.email}
+              error={formState.errors.email}
+              {...register('email')}
+            />
+          </SimpleGrid>
 
-        <SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
-          <Input
-            name="entry"
-            type="time"
-            label="Horário de entrada"
-            placeholder="Selecione o horário"
-            isDisabled={read}
-            defaultValue={values.entry}
-            style={{ colorScheme: 'dark' }}
-            error={formState.errors.entry}
-            {...register('entry')}
-          />
-          <Input
-            name="exit"
-            type="time"
-            label="Horário de saída"
-            placeholder="Selecione o horário"
-            isDisabled={read}
-            defaultValue={values.exit}
-            style={{ colorScheme: 'dark' }}
-            error={formState.errors.exit}
-            {...register('exit')}
-          />
-          <Input
-            name="workingTime"
-            type="number"
-            label="Carga horária"
-            isDisabled={read}
-            defaultValue={values.workingTime}
-            error={formState.errors.workingTime}
-            {...register('workingTime')}
-          />
-        </SimpleGrid>
+          <SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
+            <Select
+              name="companyCnpj"
+              label="Empresa"
+              isDisabled={read}
+              options={companies.map((company) => ({
+                label: company.name,
+                value: company.cnpj,
+                selected: company.cnpj === values.companyCnpj
+              }))}
+              error={formState.errors.companyCnpj}
+              {...register('companyCnpj', { value: values.companyCnpj })}
+            />
+            <Input
+              name="role"
+              label="Cargo"
+              isDisabled={read}
+              defaultValue={values.role}
+              error={formState.errors.role}
+              {...register('role')}
+            />
+            <Input
+              name="dtBirth"
+              type="date"
+              label="Data de Nascimento"
+              placeholder="Selecione a data"
+              isDisabled={read}
+              defaultValue={
+                values.dtBirth ? format(new Date(values.dtBirth), 'yyyy-MM-dd') : ''
+              }
+              style={{ colorScheme: 'dark' }}
+              error={formState.errors.dtBirth}
+              {...register('dtBirth')}
+            />
+          </SimpleGrid>
+
+          <SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
+            <Input
+              name="entry"
+              type="time"
+              label="Horário de entrada"
+              placeholder="Selecione o horário"
+              isDisabled={read}
+              defaultValue={values.entry}
+              style={{ colorScheme: 'dark' }}
+              error={formState.errors.entry}
+              {...register('entry')}
+            />
+            <Input
+              name="exit"
+              type="time"
+              label="Horário de saída"
+              placeholder="Selecione o horário"
+              isDisabled={read}
+              defaultValue={values.exit}
+              style={{ colorScheme: 'dark' }}
+              error={formState.errors.exit}
+              {...register('exit')}
+            />
+            <Input
+              name="workingTime"
+              type="number"
+              label="Carga horária"
+              isDisabled={read}
+              defaultValue={values.workingTime}
+              error={formState.errors.workingTime}
+              {...register('workingTime')}
+            />
+          </SimpleGrid>
+        </VStack>
+
+        <VStack spacing="8" w="100%">
+          <Box w="100%" justify="start">
+            <Text fontSize="xl" fontWeight="bold">
+              Endereço
+            </Text>
+          </Box>
+
+          <SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
+            <Input
+              name="address.street"
+              label="Rua"
+              isDisabled={read}
+              defaultValue={values.address.street}
+              error={formState.errors.address?.street}
+              {...register('address.street')}
+            />
+            <Input
+              name="address.district"
+              label="Bairro"
+              isDisabled={read}
+              defaultValue={values.address.district}
+              error={formState.errors.address?.district}
+              {...register('address.district')}
+            />
+          </SimpleGrid>
+
+          <SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
+            <Input
+              name="address.city"
+              label="Cidade"
+              isDisabled={read}
+              defaultValue={values.address.city}
+              error={formState.errors.address?.city}
+              {...register('address.city')}
+            />
+            <Input
+              name="address.state"
+              label="Estado"
+              isDisabled={read}
+              defaultValue={values.address.state}
+              error={formState.errors.address?.state}
+              {...register('address.state')}
+            />
+          </SimpleGrid>
+        </VStack>
       </VStack>
 
       <Flex mt="8" justify="flex-end">
@@ -248,5 +309,11 @@ const validationSchema = yup.object().shape({
   dtBirth: yup.date().required('Data de nascimento obrigatória'),
   entry: yup.string().required('Horário de entrada obrigatório'),
   exit: yup.string().required('Horário de saída obrigatório'),
-  workingTime: yup.number().required('Carga horária obrigatória')
+  workingTime: yup.number().required('Carga horária obrigatória'),
+  address: yup.object().shape({
+    street: yup.string().required('Rua obrigatória'),
+    district: yup.string().required('Bairro obrigatório'),
+    city: yup.string().required('Cidade obrigatória'),
+    state: yup.string().required('Estado obrigatório')
+  })
 })
