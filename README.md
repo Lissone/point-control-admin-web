@@ -85,7 +85,7 @@ npm run dev
 
 ## Demonstration
 
-<!-- <img src="./.github/point-control-admin-web-demo.mp4" alt="Demo Point Control Admin Website" width="100%" height="100%"/> -->
+https://user-images.githubusercontent.com/57052110/194934760-04bbc99d-4cce-464e-a93d-7f47beb80742.mp4
 
 ## License
 
