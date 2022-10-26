@@ -1,6 +1,7 @@
-import { Flex, Button, Stack } from '@chakra-ui/react'
+import { Flex, Button, Stack, Link as ChakraLink } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Head from 'next/head'
+import Link from 'next/link'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
@@ -18,12 +19,10 @@ export default function SignIn() {
   })
 
   const handleSignIn: SubmitHandler<SignInData> = async (values) => {
-    try {
-      await signIn(values)
-    } catch (err: any) {
+    signIn(values).catch((err: any) => {
       setError('email', {})
       setError('password', { type: 'custom', message: err.message as string })
-    }
+    })
   }
 
   return (
@@ -44,31 +43,39 @@ export default function SignIn() {
           onSubmit={handleSubmit(handleSignIn)}
         >
           <Stack spacing={4}>
-            <Input
-              name="email"
-              type="text"
-              label="E-mail"
-              error={formState.errors.email}
-              {...register('email')}
-            />
-            <Input
-              name="password"
-              type="password"
-              label="Senha"
-              error={formState.errors.password}
-              {...register('password')}
-            />
-          </Stack>
+            <Stack spacing={4}>
+              <Input
+                name="email"
+                type="text"
+                label="E-mail"
+                error={formState.errors.email}
+                {...register('email')}
+              />
+              <Input
+                name="password"
+                type="password"
+                label="Senha"
+                error={formState.errors.password}
+                {...register('password')}
+              />
+            </Stack>
 
-          <Button
-            type="submit"
-            mt={6}
-            size="lg"
-            colorScheme="green"
-            isLoading={formState.isSubmitting}
-          >
-            Entrar
-          </Button>
+            <Button
+              type="submit"
+              mt={6}
+              size="lg"
+              colorScheme="green"
+              isLoading={formState.isSubmitting}
+            >
+              Entrar
+            </Button>
+
+            <Link href="/identity/confirmation">
+              <ChakraLink textAlign="center" color="whiteAlpha.800">
+                Esqueceu sua senha?
+              </ChakraLink>
+            </Link>
+          </Stack>
         </Flex>
       </Flex>
     </>

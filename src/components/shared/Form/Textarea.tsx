@@ -8,6 +8,7 @@ import {
 } from '@chakra-ui/react'
 import { forwardRef, ForwardRefRenderFunction } from 'react'
 import { FieldError } from 'react-hook-form'
+import { v4 as uuid } from 'uuid'
 
 interface TextareaProps extends ChakraTextareaProps {
   name: string
@@ -23,7 +24,7 @@ export const TextareaBase: ForwardRefRenderFunction<
     {!!label && <FormLabel htmlFor={name}>{label}</FormLabel>}
 
     <ChakraTextarea
-      id={name}
+      id={`${uuid()}-${name}`}
       name={name}
       focusBorderColor="blue.700"
       bgColor="gray.900"

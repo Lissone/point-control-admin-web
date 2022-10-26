@@ -8,6 +8,7 @@ import {
 } from '@chakra-ui/react'
 import { forwardRef, ForwardRefRenderFunction } from 'react'
 import { FieldError } from 'react-hook-form'
+import { v4 as uuid } from 'uuid'
 
 interface InputProps extends ChakraInputProps {
   name: string
@@ -25,7 +26,7 @@ export const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> =
     {!!label && <FormLabel htmlFor={name}>{label}</FormLabel>}
 
     <ChakraInput
-      id={name}
+      id={uuid() + name}
       name={name}
       focusBorderColor="blue.700"
       bgColor="gray.900"

@@ -12,11 +12,29 @@ export interface SignInData {
   password: string
 }
 
+interface SignInDataResponse {
+  user: IUser
+  token: string
+  tokenExpires: number
+}
+
+export interface ResetPasswordInfo {
+  name: string
+  email: string
+}
+
+interface ValidateIdentityInfo {
+  token: string
+  code: string
+}
+
 interface AuthContextType {
   user: IUser | null
-  changePassword: (newPassword: string) => Promise<void>
   signIn: (data: SignInData) => Promise<void>
   signOut: () => void
+  changePassword: (newPassword: string) => Promise<void>
+  resetPassword: (info: ResetPasswordInfo) => Promise<void>
+  validateIdentity: (info: ValidateIdentityInfo) => Promise<void>
 }
 
 interface AuthProviderProps {
@@ -40,11 +58,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const signIn = async ({ email, password }: SignInData) => {
     try {
-      interface SignInDataResponse {
-        user: IUser
-        token: string
-        tokenExpires: number
-      }
       const { data } = await api.post<SignInDataResponse>('/user/login/admin', {
         email,
         password
@@ -72,6 +85,36 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  const resetPassword = async (info: ResetPasswordInfo) => {
+    try {
+      const { data } = await api.post<{ token: string }>(
+        '/user/reset/password/admin',
+        info
+      )
+      Router.push(`/validate/token/${data.token}`)
+    } catch (err: any) {
+      throw new Error(err.response.data.message as string)
+    }
+  }
+
+  const validateIdentity = async (info: ValidateIdentityInfo) => {
+    try {
+      const { data } = await api.post<SignInDataResponse>('/user/validate/identity', info)
+
+      api.defaults.headers['Authorization'] = `Bearer ${data.token}`
+
+      setCookie(undefined, '@PointControlAdmin.token', data.token, {
+        maxAge: data.tokenExpires
+      })
+
+      setUser(data.user)
+
+      Router.push('/change/password')
+    } catch (err: any) {
+      throw new Error(err.response.data.message)
+    }
+  }
+
   const changePassword = async (newPassword: string) => {
     const { data } = await api.patch('/user/change/password/admin', { newPassword })
     setUser(data)
@@ -92,7 +135,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
         user,
         signIn,
         signOut,
-        changePassword
+        changePassword,
+        resetPassword,
+        validateIdentity
       }}
     >
       {children}

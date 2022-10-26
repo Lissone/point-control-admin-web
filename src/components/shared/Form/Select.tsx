@@ -8,6 +8,7 @@ import {
 } from '@chakra-ui/react'
 import { forwardRef, ForwardRefRenderFunction } from 'react'
 import { FieldError } from 'react-hook-form'
+import { v4 as uuid } from 'uuid'
 
 interface SelectProps extends ChakraSelectProps {
   name: string
@@ -28,7 +29,7 @@ export const SelectBase: ForwardRefRenderFunction<HTMLSelectElement, SelectProps
     {!!label && <FormLabel htmlFor={name}>{label}</FormLabel>}
 
     <ChakraSelect
-      id={name}
+      id={`${uuid()}-${name}`}
       name={name}
       focusBorderColor="blue.700"
       placeholder="Selecione uma opção"
