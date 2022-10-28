@@ -31,23 +31,22 @@ export default function Config() {
   })
 
   const handleChangePassword: SubmitHandler<FormValues> = async (values) => {
-    changePassword(values.newPassword)
-      .then(() => {
-        toast({
-          title: 'Senha alterada!',
-          status: 'success',
-          duration: 3000,
-          isClosable: true
-        })
+    try {
+      await changePassword(values.newPassword)
+      toast({
+        title: 'Senha alterada!',
+        status: 'success',
+        duration: 3000,
+        isClosable: true
       })
-      .catch((err) => {
-        toast({
-          title: err.message,
-          status: 'error',
-          duration: 3000,
-          isClosable: true
-        })
+    } catch (err: any) {
+      toast({
+        title: err.message,
+        status: 'error',
+        duration: 3000,
+        isClosable: true
       })
+    }
   }
 
   return (

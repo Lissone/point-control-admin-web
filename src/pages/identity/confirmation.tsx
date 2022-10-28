@@ -29,20 +29,19 @@ export default function IdentityConfirmation() {
   })
 
   const handleConfirmIdentity: SubmitHandler<ResetPasswordInfo> = async (values) => {
-    resetPassword(values)
-      .then(() => {
-        toast({
-          title: 'Código de confirmação enviado para seu e-mail!',
-          description: values.email,
-          status: 'success',
-          duration: 3000,
-          isClosable: true
-        })
+    try {
+      await resetPassword(values)
+      toast({
+        title: 'Código de confirmação enviado para seu e-mail!',
+        description: values.email,
+        status: 'success',
+        duration: 3000,
+        isClosable: true
       })
-      .catch((err: any) => {
-        setError('name', {})
-        setError('email', { type: 'custom', message: err.message as string })
-      })
+    } catch (err: any) {
+      setError('name', {})
+      setError('email', { type: 'custom', message: err.message as string })
+    }
   }
 
   return (

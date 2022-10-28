@@ -62,9 +62,11 @@ export default function ValidateToken() {
   }, [token])
 
   const handleValidateIdentity: SubmitHandler<{ code: string }> = async ({ code }) => {
-    validateIdentity({ token, code }).catch((err: any) => {
+    try {
+      await validateIdentity({ token, code })
+    } catch (err: any) {
       setError('code', { type: 'custom', message: err.message as string })
-    })
+    }
   }
 
   return (

@@ -19,10 +19,12 @@ export default function SignIn() {
   })
 
   const handleSignIn: SubmitHandler<SignInData> = async (values) => {
-    signIn(values).catch((err: any) => {
+    try {
+      await signIn(values)
+    } catch (err: any) {
       setError('email', {})
       setError('password', { type: 'custom', message: err.message as string })
-    })
+    }
   }
 
   return (

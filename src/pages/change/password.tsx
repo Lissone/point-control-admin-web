@@ -86,10 +86,6 @@ const validationSchema = yup.object().shape({
     .oneOf([null, yup.ref('newPassword')], 'As senhas precisam ser iguais')
 })
 
-export const getServerSideProps = withSSRAuth(async () => {
-  // eslint-disable-next-line no-console
-  console.log('change/password')
-  return {
-    props: {}
-  }
-})
+export const getServerSideProps = withSSRAuth(async () => ({
+  props: {}
+}))
