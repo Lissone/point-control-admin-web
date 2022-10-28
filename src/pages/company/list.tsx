@@ -17,7 +17,7 @@ import {
 } from '@chakra-ui/react'
 import Head from 'next/head'
 import NextLink from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { RiAddLine, RiPencilLine } from 'react-icons/ri'
 
 import { ICompany } from '@interfaces/company'
@@ -28,7 +28,7 @@ import { api } from '@services/api'
 import { useAuth } from '@contexts/AuthContext'
 
 import { Layout } from '@components/Layout'
-import { Pagination } from '@components/Pagination'
+import { Pagination, registersPerPage } from '@components/Pagination'
 
 import { withSSRAuth } from '@utils/withSSRAuth'
 
@@ -103,13 +103,19 @@ interface CompaniesListContentProps {
 }
 
 function CompaniesListContent({ state }: CompaniesListContentProps) {
-  const [page, setPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(1)
   const { isLoading, error, companies } = state
 
   const isWideVersion = useBreakpointValue({
     base: false,
     lg: true
   })
+
+  const currentData = useMemo(() => {
+    const firstPageIndex = (currentPage - 1) * registersPerPage
+    const lastPageIndex = firstPageIndex + registersPerPage
+    return companies ? companies.slice(firstPageIndex, lastPageIndex) : []
+  }, [currentPage, companies])
 
   if (isLoading) {
     return (
@@ -147,7 +153,7 @@ function CompaniesListContent({ state }: CompaniesListContentProps) {
         </Thead>
 
         <Tbody>
-          {companies.map((company) => (
+          {currentData.map((company) => (
             <Tr key={company.cnpj}>
               <Td>
                 <Text fontWeight="bold">{company.cnpj}</Text>
@@ -174,8 +180,8 @@ function CompaniesListContent({ state }: CompaniesListContentProps) {
 
       <Pagination
         totalCountOfRegisters={companies.length}
-        currentPage={page}
-        onPageChange={setPage}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
       />
     </>
   )

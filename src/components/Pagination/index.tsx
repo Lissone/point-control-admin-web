@@ -4,26 +4,20 @@ import { PaginationItem } from './PaginationItem'
 
 interface PaginationProps {
   totalCountOfRegisters: number
-  registersPerPage?: number
   currentPage?: number
   onPageChange: (page: number) => void
 }
 
-const siblingsCount = 1
+const siblingsCount = 3
 
-function generatePagesArray(from: number, to: number) {
-  return [...new Array(to - from)]
-    .map((_, index) => from + index + 1)
-    .filter((page) => page > 0)
-}
+export const registersPerPage = 3
 
 export function Pagination({
   totalCountOfRegisters,
-  registersPerPage = 10,
   currentPage = 1,
   onPageChange
 }: PaginationProps) {
-  const lastPage = Math.floor(totalCountOfRegisters / registersPerPage)
+  const lastPage = Math.ceil(totalCountOfRegisters / registersPerPage)
 
   const previousPages =
     currentPage > 1
@@ -86,3 +80,6 @@ export function Pagination({
     </Stack>
   )
 }
+
+const generatePagesArray = (from: number, to: number) =>
+  [...new Array(to - from)].map((_, index) => from + index + 1).filter((page) => page > 0)

@@ -23,7 +23,7 @@ import {
 import { format } from 'date-fns'
 import Head from 'next/head'
 import NextLink from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { AiOutlineFileSearch } from 'react-icons/ai'
 import { RiAddLine, RiSearchLine, RiPencilLine } from 'react-icons/ri'
 
@@ -34,7 +34,7 @@ import { api } from '@services/api'
 import { useAuth } from '@contexts/AuthContext'
 
 import { Layout } from '@components/Layout'
-import { Pagination } from '@components/Pagination'
+import { Pagination, registersPerPage } from '@components/Pagination'
 
 import { withSSRAuth } from '@utils/withSSRAuth'
 
@@ -131,13 +131,19 @@ interface AbsencesTableProps {
 }
 
 function AbsencesTableToReview({ state }: AbsencesTableProps) {
-  const [page, setPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(1)
   const { isLoading, error, absencesToReview } = state
 
   const isWideVersion = useBreakpointValue({
     base: false,
     lg: true
   })
+
+  const currentData = useMemo(() => {
+    const firstPageIndex = (currentPage - 1) * registersPerPage
+    const lastPageIndex = firstPageIndex + registersPerPage
+    return absencesToReview ? absencesToReview.slice(firstPageIndex, lastPageIndex) : []
+  }, [currentPage, absencesToReview])
 
   if (isLoading) {
     return (
@@ -177,7 +183,7 @@ function AbsencesTableToReview({ state }: AbsencesTableProps) {
         </Thead>
 
         <Tbody>
-          {absencesToReview.map((absence) => (
+          {currentData.map((absence) => (
             <Tr key={absence.id}>
               <Td>
                 <NextLink href={`/absence/review/${absence.id}`} passHref>
@@ -215,21 +221,27 @@ function AbsencesTableToReview({ state }: AbsencesTableProps) {
 
       <Pagination
         totalCountOfRegisters={absencesToReview.length}
-        currentPage={page}
-        onPageChange={setPage}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
       />
     </>
   )
 }
 
 function AbsencesTable({ state }: AbsencesTableProps) {
-  const [page, setPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(1)
   const { isLoading, error, allAbsences } = state
 
   const isWideVersion = useBreakpointValue({
     base: false,
     lg: true
   })
+
+  const currentData = useMemo(() => {
+    const firstPageIndex = (currentPage - 1) * registersPerPage
+    const lastPageIndex = firstPageIndex + registersPerPage
+    return allAbsences ? allAbsences.slice(firstPageIndex, lastPageIndex) : []
+  }, [currentPage, allAbsences])
 
   if (isLoading) {
     return (
@@ -271,7 +283,7 @@ function AbsencesTable({ state }: AbsencesTableProps) {
         </Thead>
 
         <Tbody>
-          {allAbsences.map((absence) => (
+          {currentData.map((absence) => (
             <Tr key={absence.id}>
               <Td>
                 <NextLink href={`/absence/${absence.id}`} passHref>
@@ -324,8 +336,8 @@ function AbsencesTable({ state }: AbsencesTableProps) {
 
       <Pagination
         totalCountOfRegisters={allAbsences.length}
-        currentPage={page}
-        onPageChange={setPage}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
       />
     </>
   )

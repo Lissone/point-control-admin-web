@@ -17,7 +17,7 @@ import {
 } from '@chakra-ui/react'
 import Head from 'next/head'
 import NextLink from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { RiAddLine, RiSearchLine, RiPencilLine } from 'react-icons/ri'
 
 import { IUser, UserRole, UserRoleLabel } from '@interfaces/user'
@@ -27,7 +27,7 @@ import { api } from '@services/api'
 import { useAuth } from '@contexts/AuthContext'
 
 import { Layout } from '@components/Layout'
-import { Pagination } from '@components/Pagination'
+import { Pagination, registersPerPage } from '@components/Pagination'
 
 import { withSSRAuth } from '@utils/withSSRAuth'
 
@@ -102,13 +102,19 @@ interface UsersListContentProps {
 }
 
 function UsersListContent({ state }: UsersListContentProps) {
-  const [page, setPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(1)
   const { isLoading, error, users } = state
 
   const isWideVersion = useBreakpointValue({
     base: false,
     lg: true
   })
+
+  const currentData = useMemo(() => {
+    const firstPageIndex = (currentPage - 1) * registersPerPage
+    const lastPageIndex = firstPageIndex + registersPerPage
+    return users ? users.slice(firstPageIndex, lastPageIndex) : []
+  }, [currentPage, users])
 
   if (isLoading) {
     return (
@@ -148,7 +154,7 @@ function UsersListContent({ state }: UsersListContentProps) {
         </Thead>
 
         <Tbody>
-          {users.map((user) => (
+          {currentData.map((user) => (
             <Tr key={user.id}>
               <Td>
                 <NextLink href={`/user/${user.email}`} passHref>
@@ -191,8 +197,8 @@ function UsersListContent({ state }: UsersListContentProps) {
 
       <Pagination
         totalCountOfRegisters={users.length}
-        currentPage={page}
-        onPageChange={setPage}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
       />
     </>
   )

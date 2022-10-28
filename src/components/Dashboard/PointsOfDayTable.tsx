@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react'
 import { format } from 'date-fns'
 import NextLink from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { RiSearchLine } from 'react-icons/ri'
 
 import { IPoint } from '@interfaces/employee'
@@ -25,7 +25,7 @@ import { api } from '@services/api'
 
 import { useAuth } from '@contexts/AuthContext'
 
-import { Pagination } from '@components/Pagination'
+import { Pagination, registersPerPage } from '@components/Pagination'
 
 interface PointsListState {
   isLoading: boolean
@@ -36,7 +36,7 @@ interface PointsListState {
 export function PointsOfDayTable() {
   const { user } = useAuth()
   const toast = useToast()
-  const [page, setPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(1)
   const [state, setState] = useState<PointsListState>({ isLoading: false })
 
   useEffect(() => {
@@ -60,6 +60,12 @@ export function PointsOfDayTable() {
       })
     })
   }, [toast])
+
+  const currentData = useMemo(() => {
+    const firstPageIndex = (currentPage - 1) * registersPerPage
+    const lastPageIndex = firstPageIndex + registersPerPage
+    return state.points ? state.points.slice(firstPageIndex, lastPageIndex) : []
+  }, [currentPage, state])
 
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -105,7 +111,7 @@ export function PointsOfDayTable() {
         </Thead>
 
         <Tbody>
-          {state.points.map((point) => (
+          {currentData.map((point) => (
             <Tr key={point.id}>
               <Td px={['4', '4', '6']}>
                 <Box>
@@ -140,8 +146,8 @@ export function PointsOfDayTable() {
 
       <Pagination
         totalCountOfRegisters={state.points.length}
-        currentPage={page}
-        onPageChange={setPage}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
       />
     </>
   )

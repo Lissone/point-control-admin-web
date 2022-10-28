@@ -17,7 +17,7 @@ import {
 } from '@chakra-ui/react'
 import Head from 'next/head'
 import NextLink from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { RiAddLine, RiSearchLine, RiPencilLine } from 'react-icons/ri'
 
 import { IEmployee } from '@interfaces/employee'
@@ -28,7 +28,7 @@ import { api } from '@services/api'
 import { useAuth } from '@contexts/AuthContext'
 
 import { Layout } from '@components/Layout'
-import { Pagination } from '@components/Pagination'
+import { Pagination, registersPerPage } from '@components/Pagination'
 
 import { withSSRAuth } from '@utils/withSSRAuth'
 
@@ -104,13 +104,19 @@ interface EmployeesListContentProps {
 }
 
 function EmployeesListContent({ state, user }: EmployeesListContentProps) {
-  const [page, setPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(1)
   const { isLoading, error, employees } = state
 
   const isWideVersion = useBreakpointValue({
     base: false,
     lg: true
   })
+
+  const currentData = useMemo(() => {
+    const firstPageIndex = (currentPage - 1) * registersPerPage
+    const lastPageIndex = firstPageIndex + registersPerPage
+    return employees ? employees.slice(firstPageIndex, lastPageIndex) : []
+  }, [currentPage, employees])
 
   if (isLoading) {
     return (
@@ -155,7 +161,7 @@ function EmployeesListContent({ state, user }: EmployeesListContentProps) {
         </Thead>
 
         <Tbody>
-          {employees.map((employee) => (
+          {currentData.map((employee) => (
             <Tr key={employee.cpf}>
               <Td>
                 <NextLink href={`/employee/${employee.cpf}`} passHref>
@@ -205,8 +211,8 @@ function EmployeesListContent({ state, user }: EmployeesListContentProps) {
 
       <Pagination
         totalCountOfRegisters={employees.length}
-        currentPage={page}
-        onPageChange={setPage}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
       />
     </>
   )
