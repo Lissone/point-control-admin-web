@@ -24,6 +24,8 @@ import { useAuth } from '@contexts/AuthContext'
 
 import { Input, Select, Textarea } from '@components/shared/Form'
 
+import { mapSelectValue } from '@utils/shared'
+
 type FormValuesType = Partial<AbsenceCreateUpdateDTO> & Partial<IAbsence>
 
 interface AbsenceFormProps {
@@ -51,6 +53,7 @@ export function AbsenceForm({
   const { user } = useAuth()
   const [employees, setEmployees] = useState<IEmployee[]>([])
 
+  const typeOptions = ['Consulta médica', 'Férias', 'Outros']
   const statusOptions =
     read || create || update
       ? [
@@ -132,13 +135,14 @@ export function AbsenceForm({
               disabled: read || create
             })}
           />
-          <Input
+          <Select
             name="type"
             label="Tipo"
-            isDisabled={read}
-            defaultValue={values.type}
+            options={mapSelectValue(typeOptions)}
             error={formState.errors.type}
-            {...register('type')}
+            {...register('type', {
+              value: values.type
+            })}
           />
         </SimpleGrid>
 
