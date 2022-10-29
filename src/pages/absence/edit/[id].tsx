@@ -36,7 +36,7 @@ export default function EditAbsence({ absence }: EditAbsenceProps) {
       })
       .catch((err) => {
         toast({
-          title: err.message,
+          title: err.response.data.error,
           status: 'error',
           duration: 3000,
           isClosable: true

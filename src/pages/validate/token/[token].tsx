@@ -65,7 +65,7 @@ export default function ValidateToken() {
     try {
       await validateIdentity({ token, code })
     } catch (err: any) {
-      setError('code', { type: 'custom', message: err.message as string })
+      setError('code', { type: 'custom', message: err.response.data.error })
     }
   }
 

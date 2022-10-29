@@ -40,7 +40,7 @@ export default function IdentityConfirmation() {
       })
     } catch (err: any) {
       setError('name', {})
-      setError('email', { type: 'custom', message: err.message as string })
+      setError('email', { type: 'custom', message: err.response.data.error })
     }
   }
 

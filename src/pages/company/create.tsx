@@ -32,7 +32,7 @@ export default function CreateCompany() {
       })
       .catch((err) => {
         toast({
-          title: err.message,
+          title: err.response.data.error,
           status: 'error',
           duration: 3000,
           isClosable: true

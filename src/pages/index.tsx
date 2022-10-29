@@ -23,7 +23,7 @@ export default function SignIn() {
       await signIn(values)
     } catch (err: any) {
       setError('email', {})
-      setError('password', { type: 'custom', message: err.message as string })
+      setError('password', { type: 'custom', message: err.response.data.error })
     }
   }
 

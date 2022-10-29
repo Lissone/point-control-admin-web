@@ -74,14 +74,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       if (data.user.firstAccess) Router.push('/change/password')
       else Router.push('/dashboard')
     } catch (err: any) {
-      switch (err.response.data.message) {
-        case 'User not found':
-          throw new Error('Usuário não cadastrado!')
-        case 'Invalid password':
-          throw new Error('Senha inválida!')
-        default:
-          throw new Error(err as string)
-      }
+      throw new Error(err.response.data.error)
     }
   }
 
@@ -93,7 +86,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       )
       Router.push(`/validate/token/${data.token}`)
     } catch (err: any) {
-      throw new Error(err.response.data.message as string)
+      throw new Error(err.response.data.error)
     }
   }
 
@@ -111,15 +104,19 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       Router.push('/change/password')
     } catch (err: any) {
-      throw new Error(err.response.data.message)
+      throw new Error(err.response.data.error)
     }
   }
 
   const changePassword = async (newPassword: string) => {
-    const { data } = await api.patch('/user/change/password/admin', { newPassword })
-    setUser(data)
+    try {
+      const { data } = await api.patch('/user/change/password/admin', { newPassword })
+      setUser(data)
 
-    Router.push('/dashboard')
+      Router.push('/dashboard')
+    } catch (err: any) {
+      throw new Error(err.response.data.error)
+    }
   }
 
   const signOut = () => {
