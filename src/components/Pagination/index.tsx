@@ -10,7 +10,7 @@ interface PaginationProps {
 
 const siblingsCount = 3
 
-export const registersPerPage = 3
+export const registersPerPage = 5
 
 export function Pagination({
   totalCountOfRegisters,

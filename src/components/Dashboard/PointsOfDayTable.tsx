@@ -121,7 +121,7 @@ export function PointsOfDayTable() {
                   </Text>
                 </Box>
               </Td>
-              {isWideVersion && !userHasCompany && <Td>{point.employee.companyCnpj}</Td>}
+              {isWideVersion && !userHasCompany && <Td>{point.employee.company.name}</Td>}
               <Td>{format(new Date(point.createdAt), 'dd/MM/yyyy - HH:MM')}</Td>
               {isWideVersion && (
                 <Td>
