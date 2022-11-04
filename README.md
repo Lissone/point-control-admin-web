@@ -4,10 +4,11 @@
 
 <p align="center">
   <a href="#description">Description</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#demonstration">Demonstration</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#requirements">Requirements</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#technologies">Technologies</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#usage">Usage</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#demonstration">Demonstration</a>
+  <a href="#contributors">Contributors</a>
 </p>
 <br />
 <p align="center">
@@ -30,13 +31,24 @@
 
 ## Description
 
-Front-end application for employee activity control for companies.
+This project is the website admin version of a company point control application. The company's accredited employees have access to the data of the rest of the other employees, being able to validate their absences, control and verify the frequency of the beat of entry and exit points and keep the data of all employees in a safe way.
 
-This application is part of a project of my bachelor's degree in Information Systems. The api and the front-end were developed in other git repositories by the participants of my group, namely: <a href="https://github.com/MikaMorais" target="_blank">Moises Morais</a>, <a href="https://github.com/steniodr" target="_blank">Stenio Rapchan</a> and <a href="https://github.com/almeidavini" target="_blank">Vinicius Almeida</a>.
+Project developed as an activity of my bachelor's degree in information systems, with the main objective of having a very descriptive and extensive documentation, for anyone to understand the features and learn from it. The api framework was built on clean architecture and documented with Swagger.
 
-Integrated projects:
+To facilitate the development of the project and better describe everything that was created, a flowchart of some of the project's features and relevant information at the time of its development was designed, using <a href="https://whimsical.com/pointcontrol-5dryUV3teiRwy1rPzH3ekK" target="_blank">Whimsical</a>.
+
+To access the other projects integrated to this one, access:
 - <a href="https://github.com/Lissone/point-control-api" target="_blank">Back-end</a>
 - <a href="https://github.com/almeidavini/point-control" target="_blank">Front-end to employees</a>
+
+This project was done in partnership with:
+- <a href="https://github.com/MikaMorais" target="_blank">Moises Morais</a>
+- <a href="https://github.com/steniodr" target="_blank">Stenio Rapchan</a>
+- <a href="https://github.com/almeidavini" target="_blank">Vinicius Almeida</a>
+
+## Demonstration
+
+https://user-images.githubusercontent.com/57052110/194934760-04bbc99d-4cce-464e-a93d-7f47beb80742.mp4
 
 ## Requirements
 
@@ -83,16 +95,41 @@ yarn dev
 npm run dev
 ```
 
-## Demonstration
+## Contributors
 
-https://user-images.githubusercontent.com/57052110/194934760-04bbc99d-4cce-464e-a93d-7f47beb80742.mp4
+Thanks goes to these wonderful people, who were part of the project from start to finish:
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/MikaMorais" target="_blank">
+        <img src="https://github.com/MikaMorais.png" width="100px;" alt="Moises Morais photo"/><br>
+        <sub>
+          <b>Moises Morais</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/steniodr" target="_blank">
+        <img src="https://github.com/steniodr.png" width="100px;" alt="Stenio Rapchan photo"/><br>
+        <sub>
+          <b>Stenio Rapchan</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/almeidavini" target="_blank">
+        <img src="https://github.com/almeidavini.png" width="100px;" alt="Vinicius Almeida photo"/><br>
+        <sub>
+          <b>Vinicius Almeida</b>
+        </sub>
+      </a>
+    </td>
+  </tr>
+</table>
 
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
-
-<h4 align="center">
-  Made with ❤️ by <a href="https://github.com/Lissone" target="_blank">Lissone</a>
-</h4>
 
 <hr />
