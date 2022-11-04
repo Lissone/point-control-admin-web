@@ -1,7 +1,7 @@
 {
   "name": "point-control-admin-web",
-  "version": "1.0.0",
-  "description": "Aplicação front-end de controle de pontos de empresas, versão admin.",
+  "version": "1.0.1",
+  "description": "Application to control points of companies, admin version.",
   "repository": "https://github.com/Lissone/point-control-admin-web.git",
   "author": "Leonardo Dias Lissone Santomero",
   "license": "MIT",
