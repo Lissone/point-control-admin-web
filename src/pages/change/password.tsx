@@ -18,12 +18,17 @@ interface FormValues {
 export default function ChangePassword() {
   const { changePassword } = useAuth()
 
-  const { register, handleSubmit, formState } = useForm({
+  const { register, setError, handleSubmit, formState } = useForm({
     resolver: yupResolver(validationSchema)
   })
 
   const handleChangePassword: SubmitHandler<FormValues> = async (values) => {
-    await changePassword(values.newPassword)
+    try {
+      await changePassword(values.newPassword)
+    } catch (err: any) {
+      setError('newPassword', {})
+      setError('newPasswordConfirmation', { type: 'custom', message: err.message })
+    }
   }
 
   return (

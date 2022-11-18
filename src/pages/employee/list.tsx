@@ -49,19 +49,19 @@ export default function EmployeesList() {
         setState({ isLoading: true })
         const { data: employees } = await api.get('/employee')
         setState({ isLoading: false, employees })
-      } catch {
+      } catch (err: any) {
         setState({ isLoading: false, error: true })
+
+        toast({
+          title: err.response.data.error,
+          status: 'error',
+          duration: 3000,
+          isClosable: true
+        })
       }
     }
 
-    getEmployees().catch((err) => {
-      toast({
-        title: err.response.data.error,
-        status: 'error',
-        duration: 3000,
-        isClosable: true
-      })
-    })
+    getEmployees()
   }, [toast])
 
   return (

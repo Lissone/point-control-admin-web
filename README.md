@@ -38,10 +38,12 @@ Project developed as an activity of my bachelor's degree in information systems,
 To facilitate the development of the project and better describe everything that was created, a flowchart of some of the project's features and relevant information at the time of its development was designed, using <a href="https://whimsical.com/pointcontrol-5dryUV3teiRwy1rPzH3ekK" target="_blank">Whimsical</a>.
 
 To access the other projects integrated to this one, access:
+
 - <a href="https://github.com/Lissone/point-control-api" target="_blank">Back-end</a>
 - <a href="https://github.com/almeidavini/point-control" target="_blank">Front-end to employees</a>
 
 This project was done in partnership with:
+
 - <a href="https://github.com/MikaMorais" target="_blank">Moises Morais</a>
 - <a href="https://github.com/steniodr" target="_blank">Stenio Rapchan</a>
 - <a href="https://github.com/almeidavini" target="_blank">Vinicius Almeida</a>
@@ -85,6 +87,15 @@ Install dependencies using:
 yarn
 #or
 npm install
+```
+
+Need to add environment variables:
+
+```bash
+# .\.env.local
+
+# DEFAULT
+BASE_URL_API=http://localhost:5000/api/v1
 ```
 
 Run application:

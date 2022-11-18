@@ -53,7 +53,7 @@ export function PointsOfDayTable() {
 
     getCompanies().catch((err) => {
       toast({
-        title: err.response.data.error,
+        title: err.message,
         status: 'error',
         duration: 3000,
         isClosable: true

@@ -8,7 +8,7 @@ export function setupAPIClient(ctx = undefined) {
   const token = cookies['@PointControlAdmin.token']
 
   const apiInstance = axios.create({
-    baseURL: 'http://localhost:5000/api/v1',
+    baseURL: process.env.BASE_URL_API || 'http://localhost:5000/api/v1',
     headers: {
       Authorization: `Bearer ${token}`
     }

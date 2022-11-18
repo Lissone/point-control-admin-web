@@ -41,7 +41,7 @@ export default function Config() {
       })
     } catch (err: any) {
       toast({
-        title: err.response.data.error,
+        title: err.message,
         status: 'error',
         duration: 3000,
         isClosable: true

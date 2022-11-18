@@ -25,8 +25,6 @@ import { UserRole } from '@interfaces/user'
 
 import { api } from '@services/api'
 
-import { useAuth } from '@contexts/AuthContext'
-
 import { Layout } from '@components/Layout'
 import { Pagination, registersPerPage } from '@components/Pagination'
 
@@ -39,7 +37,6 @@ interface CompaniesListState {
 }
 
 export default function CompaniesList() {
-  const { user } = useAuth()
   const toast = useToast()
   const [state, setState] = useState<CompaniesListState>({ isLoading: false })
 
@@ -49,20 +46,20 @@ export default function CompaniesList() {
         setState({ isLoading: true })
         const { data: companies } = await api.get('/company')
         setState({ isLoading: false, companies })
-      } catch {
+      } catch (err: any) {
         setState({ isLoading: false, error: true })
+
+        toast({
+          title: err.response.data.error,
+          status: 'error',
+          duration: 3000,
+          isClosable: true
+        })
       }
     }
 
-    getCompanies().catch((err) => {
-      toast({
-        title: err.response.data.error,
-        status: 'error',
-        duration: 3000,
-        isClosable: true
-      })
-    })
-  }, [toast, user])
+    getCompanies()
+  }, [toast])
 
   return (
     <>

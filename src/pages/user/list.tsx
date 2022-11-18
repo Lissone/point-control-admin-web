@@ -24,8 +24,6 @@ import { IUser, UserRole, UserRoleLabel } from '@interfaces/user'
 
 import { api } from '@services/api'
 
-import { useAuth } from '@contexts/AuthContext'
-
 import { Layout } from '@components/Layout'
 import { Pagination, registersPerPage } from '@components/Pagination'
 
@@ -38,7 +36,6 @@ interface UsersListState {
 }
 
 export default function UsersList() {
-  const { user } = useAuth()
   const toast = useToast()
   const [state, setState] = useState<UsersListState>({ isLoading: false })
 
@@ -48,20 +45,20 @@ export default function UsersList() {
         setState({ isLoading: true })
         const { data: users } = await api.get('/user')
         setState({ isLoading: false, users })
-      } catch {
+      } catch (err: any) {
         setState({ isLoading: false, error: true })
+
+        toast({
+          title: err.response.data.error,
+          status: 'error',
+          duration: 3000,
+          isClosable: true
+        })
       }
     }
 
-    getUsers().catch((err) => {
-      toast({
-        title: err.response.data.error,
-        status: 'error',
-        duration: 3000,
-        isClosable: true
-      })
-    })
-  }, [toast, user])
+    getUsers()
+  }, [toast])
 
   return (
     <>

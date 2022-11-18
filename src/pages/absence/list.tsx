@@ -31,8 +31,6 @@ import { AbsenceStatus, AbsenceStatusLabel, IAbsence } from '@interfaces/absence
 
 import { api } from '@services/api'
 
-import { useAuth } from '@contexts/AuthContext'
-
 import { Layout } from '@components/Layout'
 import { Pagination, registersPerPage } from '@components/Pagination'
 
@@ -46,7 +44,6 @@ interface AbsencesListState {
 }
 
 export default function AbsencesList() {
-  const { user } = useAuth()
   const toast = useToast()
   const [state, setState] = useState<AbsencesListState>({ isLoading: false })
 
@@ -64,20 +61,20 @@ export default function AbsencesList() {
           allAbsences,
           absencesToReview
         }))
-      } catch {
+      } catch (err: any) {
         setState((prevState) => ({ ...prevState, isLoading: false, error: true }))
+
+        toast({
+          title: err.response.data.error,
+          status: 'error',
+          duration: 3000,
+          isClosable: true
+        })
       }
     }
 
-    getAbsences().catch((err) => {
-      toast({
-        title: err.response.data.error,
-        status: 'error',
-        duration: 3000,
-        isClosable: true
-      })
-    })
-  }, [toast, user])
+    getAbsences()
+  }, [toast])
 
   return (
     <>
