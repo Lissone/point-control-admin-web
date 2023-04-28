@@ -18,7 +18,7 @@ interface FormValues {
 export default function ChangePassword() {
   const { changePassword } = useAuth()
 
-  const { register, setError, handleSubmit, formState } = useForm({
+  const { register, setError, handleSubmit, formState } = useForm<FormValues>({
     resolver: yupResolver(validationSchema)
   })
 

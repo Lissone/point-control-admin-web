@@ -51,9 +51,10 @@ export function EmployeeForm({
   const { user } = useAuth()
   const [companies, setCompanies] = useState<ICompany[]>([])
 
-  const { register, handleSubmit, setError, formState } = useForm({
-    resolver: yupResolver(validationSchema)
-  })
+  const { register, handleSubmit, setError, formState } =
+    useForm<EmployeeCreateUpdateDTO>({
+      resolver: yupResolver(validationSchema)
+    })
 
   const handleCreateUpdate: SubmitHandler<EmployeeCreateUpdateDTO> = async (
     formValues
@@ -119,7 +120,7 @@ export function EmployeeForm({
 
       <VStack spacing="12">
         <VStack spacing="8" w="100%">
-          <Box w="100%" justify="start">
+          <Box w="100%" justifyContent="start">
             <Text fontSize="xl" fontWeight="bold">
               Dados pessoais
             </Text>
@@ -227,7 +228,7 @@ export function EmployeeForm({
         </VStack>
 
         <VStack spacing="8" w="100%">
-          <Box w="100%" justify="start">
+          <Box w="100%" justifyContent="start">
             <Text fontSize="xl" fontWeight="bold">
               Endereço
             </Text>

@@ -55,7 +55,7 @@ export function UserForm({
     { label: 'Cliente', value: 'client' }
   ]
 
-  const { register, handleSubmit, setValue, watch, formState } = useForm({
+  const { register, handleSubmit, setValue, watch, formState } = useForm<FormValuesType>({
     resolver: yupResolver(validationSchema)
   })
 
@@ -75,7 +75,7 @@ export function UserForm({
     loadInputCompanies().catch((err) => console.error(err))
   }, [user])
 
-  const handleCreateUpdate: SubmitHandler<UserCreateUpdateDTO> = async (formValues) => {
+  const handleCreateUpdate: SubmitHandler<FormValuesType> = async (formValues) => {
     await onHandleSubmit({
       name: formValues.name,
       email: formValues.email,
@@ -178,7 +178,7 @@ export function UserForm({
                   email: employee.email
                 })
               }))}
-              {...register('employee')}
+              {...register('company.employees')}
             />
           )}
         </SimpleGrid>

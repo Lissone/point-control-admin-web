@@ -66,7 +66,7 @@ export function AbsenceForm({
           { label: 'Negado', value: 0 }
         ]
 
-  const { register, handleSubmit, formState } = useForm({
+  const { register, handleSubmit, formState } = useForm<AbsenceCreateUpdateDTO>({
     resolver: yupResolver(validationSchema)
   })
 

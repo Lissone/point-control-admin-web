@@ -96,7 +96,7 @@ export default function ValidateToken() {
             <HStack align="center" justify="center">
               <Text color="whiteAlpha.800">Lembrou sua senha?</Text>
               <Link href="/">
-                <ChakraLink align="center" textAlign="center" color="blue.600">
+                <ChakraLink alignItems="center" textAlign="center" color="blue.600">
                   Faça seu login
                 </ChakraLink>
               </Link>

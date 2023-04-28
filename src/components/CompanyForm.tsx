@@ -39,9 +39,11 @@ export function CompanyForm({
 }: CompanyFormProps) {
   const router = useRouter()
 
-  const { register, handleSubmit, setError, formState } = useForm({
-    resolver: yupResolver(validationSchema)
-  })
+  const { register, handleSubmit, setError, formState } = useForm<CompanyCreateUpdateDTO>(
+    {
+      resolver: yupResolver(validationSchema)
+    }
+  )
 
   const handleCreateUpdate: SubmitHandler<CompanyCreateUpdateDTO> = async (
     formValues

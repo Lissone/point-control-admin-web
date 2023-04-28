@@ -26,7 +26,7 @@ export default function Config() {
   const { changePassword } = useAuth()
   const toast = useToast()
 
-  const { register, handleSubmit, formState } = useForm({
+  const { register, handleSubmit, formState } = useForm<FormValues>({
     resolver: yupResolver(validationSchema)
   })
 

@@ -14,7 +14,7 @@ import { withSSRGuest } from '@utils/withSSRGuest'
 export default function SignIn() {
   const { signIn } = useAuth()
 
-  const { register, handleSubmit, setError, formState } = useForm({
+  const { register, handleSubmit, setError, formState } = useForm<SignInData>({
     resolver: yupResolver(validationSchema)
   })
 
