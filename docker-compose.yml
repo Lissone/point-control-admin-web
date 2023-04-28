@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  point-control-admin:
+    container_name: point-control-admin
+    image: point-control-admin:1.0.2
+    build:
+      context: .
+      args:
+        PORT: 3000
+    restart: always
+    ports:
+      - 3000:3000

@@ -81,6 +81,15 @@ git clone https://github.com/Lissone/point-control-admin-web.git
 cd point-control-admin-web
 ```
 
+Need to add environment variables:
+
+```bash
+# .\.env.local
+
+# DEFAULT
+BASE_URL_API=http://localhost:5000/api/v1
+```
+
 Install dependencies using:
 
 ```bash
@@ -89,13 +98,13 @@ yarn
 npm install
 ```
 
-Need to add environment variables:
+If you have <b>Docker</b>, and want to run the container, use the command:
 
 ```bash
-# .\.env.local
-
-# DEFAULT
-BASE_URL_API=http://localhost:5000/api/v1
+# Build the project container
+docker-compose build
+# Up container
+docker-compose up
 ```
 
 Run application:
